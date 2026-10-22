@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../core/app_colors.dart';
-import '../models/app_tab.dart';
+import '../../core/app_colors.dart';
+import '../../core/models/app_tab.dart';
 import '../providers/ui_providers.dart';
 
 class AppTopTabs extends ConsumerWidget {
@@ -25,7 +25,8 @@ class AppTopTabs extends ConsumerWidget {
             Expanded(
               child: Padding(
                 padding: EdgeInsets.only(
-                    right: t == AppTab.values.last ? 0 : 8),
+                  right: t == AppTab.values.last ? 0 : 8,
+                ),
                 child: Material(
                   color: t == current ? AppColors.red : AppColors.surface2,
                   shape: RoundedRectangleBorder(
@@ -82,13 +83,18 @@ class AppBottomNav extends ConsumerWidget {
               borderRadius: BorderRadius.circular(10),
               onTap: () => ref.read(tabProvider.notifier).select(t),
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 4),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 4,
+                ),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Icon(t.icon,
-                        size: 22,
-                        color: t == current ? AppColors.red : AppColors.muted),
+                    Icon(
+                      t.icon,
+                      size: 22,
+                      color: t == current ? AppColors.red : AppColors.muted,
+                    ),
                     const SizedBox(height: 4),
                     Text(
                       t.label,

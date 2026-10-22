@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../core/app_colors.dart';
+
+import '../../../core/app_colors.dart';
 
 class CategoryTitle extends StatelessWidget {
   const CategoryTitle(this.name, {super.key});

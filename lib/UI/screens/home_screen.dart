@@ -3,9 +3,9 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../core/app_colors.dart';
-import '../core/theme.dart';
-import '../models/app_tab.dart';
+import '../../core/app_colors.dart';
+import '../../core/theme.dart';
+import '../../core/models/app_tab.dart';
 import '../providers/restaurant_provider.dart';
 import '../providers/ui_providers.dart';
 import '../widgets/app_nav.dart';
@@ -87,16 +87,22 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       ElevatedButton(
                         onPressed: _handleSave,
                         style: ElevatedButton.styleFrom(
-                          backgroundColor:
-                              _saved ? AppColors.green : AppColors.red,
+                          backgroundColor: _saved
+                              ? AppColors.green
+                              : AppColors.red,
                           foregroundColor: Colors.white,
                           elevation: 0,
                           padding: const EdgeInsets.symmetric(
-                              horizontal: 16, vertical: 12),
+                            horizontal: 16,
+                            vertical: 12,
+                          ),
                           shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10)),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
                           textStyle: const TextStyle(
-                              fontSize: 13, fontWeight: FontWeight.w600),
+                            fontSize: 13,
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
                         child: Text(_saved ? '✓ Guardado' : 'Guardar'),
                       ),

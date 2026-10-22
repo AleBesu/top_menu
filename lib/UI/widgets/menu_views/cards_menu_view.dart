@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '../../core/app_colors.dart';
-import '../../core/theme.dart';
-import '../../core/utils.dart';
-import '../../models/menu_category.dart';
+import '../../../core/app_colors.dart';
+import '../../../core/theme.dart';
+import '../../../core/utils.dart';
+import '../../../core/models/menu_category.dart';
 import '../net_image.dart';
 import 'category_title.dart';
 
@@ -32,22 +32,30 @@ class CardsMenuView extends StatelessWidget {
                 children: [
                   Stack(
                     children: [
-                      AspectRatio(aspectRatio: 16 / 9, child: NetImage(p.image)),
+                      AspectRatio(
+                        aspectRatio: 16 / 9,
+                        child: NetImage(p.image),
+                      ),
                       Positioned(
                         top: 10,
                         right: 10,
                         child: Container(
                           padding: const EdgeInsets.symmetric(
-                              horizontal: 12, vertical: 6),
+                            horizontal: 12,
+                            vertical: 6,
+                          ),
                           decoration: BoxDecoration(
                             color: AppColors.red,
                             borderRadius: BorderRadius.circular(20),
                           ),
-                          child: Text(formatPrice(p.price),
-                              style: const TextStyle(
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.w700,
-                                  color: Colors.white)),
+                          child: Text(
+                            formatPrice(p.price),
+                            style: const TextStyle(
+                              fontSize: 13,
+                              fontWeight: FontWeight.w700,
+                              color: Colors.white,
+                            ),
+                          ),
                         ),
                       ),
                     ],
@@ -57,18 +65,24 @@ class CardsMenuView extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(p.name,
-                            style: const TextStyle(
-                                fontSize: 19,
-                                fontFamily: kSerif,
-                                letterSpacing: -0.2)),
+                        Text(
+                          p.name,
+                          style: const TextStyle(
+                            fontSize: 19,
+                            fontFamily: kSerif,
+                            letterSpacing: -0.2,
+                          ),
+                        ),
                         if (p.description.isNotEmpty) ...[
                           const SizedBox(height: 4),
-                          Text(p.description,
-                              style: const TextStyle(
-                                  fontSize: 13,
-                                  height: 1.4,
-                                  color: AppColors.muted)),
+                          Text(
+                            p.description,
+                            style: const TextStyle(
+                              fontSize: 13,
+                              height: 1.4,
+                              color: AppColors.muted,
+                            ),
+                          ),
                         ],
                       ],
                     ),

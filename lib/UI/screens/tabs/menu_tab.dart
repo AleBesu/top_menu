@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../core/app_colors.dart';
+import '../../../core/app_colors.dart';
 import '../../providers/restaurant_provider.dart';
 import '../../widgets/category_card.dart';
 import '../../widgets/section_header.dart';
@@ -11,8 +11,9 @@ class MenuTab extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final categories =
-        ref.watch(restaurantProvider.select((c) => c.categories));
+    final categories = ref.watch(
+      restaurantProvider.select((c) => c.categories),
+    );
 
     return ListView(
       padding: const EdgeInsets.all(20),
@@ -29,11 +30,14 @@ class MenuTab extends ConsumerWidget {
             foregroundColor: AppColors.muted,
             side: const BorderSide(color: AppColors.border),
             padding: const EdgeInsets.symmetric(vertical: 14),
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
           ),
-          child: const Text('+ Nueva categoría',
-              style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600)),
+          child: const Text(
+            '+ Nueva categoría',
+            style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+          ),
         ),
       ],
     );

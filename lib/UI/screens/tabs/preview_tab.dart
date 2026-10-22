@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../core/theme.dart';
+import '../../../core/theme.dart';
 import '../../providers/restaurant_provider.dart';
 import '../../providers/ui_providers.dart';
 import '../../widgets/menu_views/menu_view_builder.dart';
@@ -49,17 +49,24 @@ class PreviewTab extends ConsumerWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(config.name,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
-                              fontFamily: kSerif,
-                              fontSize: 24,
-                              color: Colors.white)),
+                      Text(
+                        config.name,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                          fontFamily: kSerif,
+                          fontSize: 24,
+                          color: Colors.white,
+                        ),
+                      ),
                       const SizedBox(height: 2),
-                      Text('Abierto de ${config.openTime} a ${config.closeTime}',
-                          style: const TextStyle(
-                              fontSize: 12, color: Color(0xCCFFFFFF))),
+                      Text(
+                        'Abierto de ${config.openTime} a ${config.closeTime}',
+                        style: const TextStyle(
+                          fontSize: 12,
+                          color: Color(0xCCFFFFFF),
+                        ),
+                      ),
                     ],
                   ),
                 ),

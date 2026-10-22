@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import '../core/app_colors.dart';
+
+import '../../core/app_colors.dart';
 
 /// Imagen de red que rellena su contenedor, con placeholder si falla o está vacía.
 class NetImage extends StatelessWidget {
@@ -8,10 +9,10 @@ class NetImage extends StatelessWidget {
   final BoxFit fit;
 
   Widget get _placeholder => Container(
-        color: AppColors.surface2,
-        alignment: Alignment.center,
-        child: const Icon(Icons.image_outlined, color: AppColors.muted),
-      );
+    color: AppColors.surface2,
+    alignment: Alignment.center,
+    child: const Icon(Icons.image_outlined, color: AppColors.muted),
+  );
 
   @override
   Widget build(BuildContext context) {

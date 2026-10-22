@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import '../core/app_colors.dart';
+
+import '../../core/app_colors.dart';
 
 class FieldLabel extends StatelessWidget {
   const FieldLabel(this.text, {super.key});
@@ -7,20 +8,20 @@ class FieldLabel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Text(
-        text.toUpperCase(),
-        style: const TextStyle(
-          color: AppColors.muted,
-          fontSize: 11,
-          fontWeight: FontWeight.w600,
-          letterSpacing: 0.9,
-        ),
-      );
+    text.toUpperCase(),
+    style: const TextStyle(
+      color: AppColors.muted,
+      fontSize: 11,
+      fontWeight: FontWeight.w600,
+      letterSpacing: 0.9,
+    ),
+  );
 }
 
 OutlineInputBorder _border(Color c) => OutlineInputBorder(
-      borderRadius: BorderRadius.circular(8),
-      borderSide: BorderSide(color: c),
-    );
+  borderRadius: BorderRadius.circular(8),
+  borderSide: BorderSide(color: c),
+);
 
 class AppField extends StatelessWidget {
   const AppField({
@@ -65,8 +66,10 @@ class AppField extends StatelessWidget {
             filled: true,
             fillColor: AppColors.surface2,
             isDense: true,
-            contentPadding:
-                const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+            contentPadding: const EdgeInsets.symmetric(
+              horizontal: 12,
+              vertical: 12,
+            ),
             border: _border(AppColors.border),
             enabledBorder: _border(AppColors.border),
             focusedBorder: _border(AppColors.red),

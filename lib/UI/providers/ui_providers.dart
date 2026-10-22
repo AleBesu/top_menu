@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../models/app_tab.dart';
-import '../models/menu_view_mode.dart';
+import '../../core/models/app_tab.dart';
+import '../../core/models/menu_view_mode.dart';
 
 class TabNotifier extends Notifier<AppTab> {
   @override
@@ -17,5 +17,6 @@ class ViewModeNotifier extends Notifier<MenuViewMode> {
   void select(MenuViewMode mode) => state = mode;
 }
 
-final viewModeProvider =
-    NotifierProvider<ViewModeNotifier, MenuViewMode>(ViewModeNotifier.new);
+final viewModeProvider = NotifierProvider<ViewModeNotifier, MenuViewMode>(
+  ViewModeNotifier.new,
+);

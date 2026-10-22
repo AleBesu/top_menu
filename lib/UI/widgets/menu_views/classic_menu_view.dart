@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '../../core/app_colors.dart';
-import '../../core/theme.dart';
-import '../../core/utils.dart';
-import '../../models/menu_category.dart';
+import '../../../core/app_colors.dart';
+import '../../../core/theme.dart';
+import '../../../core/utils.dart';
+import '../../../core/models/menu_category.dart';
 
 /// Carta tipográfica sin imágenes: nombre ······ precio.
 class ClassicMenuView extends StatelessWidget {
@@ -46,11 +46,14 @@ class ClassicMenuView extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.baseline,
                       textBaseline: TextBaseline.alphabetic,
                       children: [
-                        Text(p.name,
-                            style: const TextStyle(
-                                fontFamily: kSerif,
-                                fontSize: 16,
-                                fontWeight: FontWeight.w600)),
+                        Text(
+                          p.name,
+                          style: const TextStyle(
+                            fontFamily: kSerif,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
                         const SizedBox(width: 8),
                         const Expanded(
                           child: Text(
@@ -62,21 +65,27 @@ class ClassicMenuView extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(width: 8),
-                        Text(formatPrice(p.price),
-                            style: const TextStyle(
-                                fontFamily: kSerif,
-                                fontSize: 16,
-                                fontWeight: FontWeight.w600)),
+                        Text(
+                          formatPrice(p.price),
+                          style: const TextStyle(
+                            fontFamily: kSerif,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
                       ],
                     ),
                     if (p.description.isNotEmpty)
                       Padding(
                         padding: const EdgeInsets.only(top: 3),
-                        child: Text(p.description,
-                            style: const TextStyle(
-                                fontSize: 12,
-                                fontStyle: FontStyle.italic,
-                                color: AppColors.muted)),
+                        child: Text(
+                          p.description,
+                          style: const TextStyle(
+                            fontSize: 12,
+                            fontStyle: FontStyle.italic,
+                            color: AppColors.muted,
+                          ),
+                        ),
                       ),
                   ],
                 ),

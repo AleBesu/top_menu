@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
 
-import '../../core/app_colors.dart';
-import '../../models/menu_category.dart';
-import '../../models/menu_view_mode.dart';
+import '../../../core/app_colors.dart';
+import '../../../core/models/menu_category.dart';
+import '../../../core/models/menu_view_mode.dart';
 import 'cards_menu_view.dart';
 import 'classic_menu_view.dart';
 import 'grid_menu_view.dart';
 import 'list_menu_view.dart';
 
 class MenuViewBuilder extends StatelessWidget {
-  const MenuViewBuilder({super.key, required this.mode, required this.categories});
+  const MenuViewBuilder({
+    super.key,
+    required this.mode,
+    required this.categories,
+  });
   final MenuViewMode mode;
   final List<MenuCategory> categories;
 
@@ -20,9 +24,11 @@ class MenuViewBuilder extends StatelessWidget {
       return const Padding(
         padding: EdgeInsets.symmetric(vertical: 40),
         child: Center(
-          child: Text('Añade platos en la pestaña Carta para verlos aquí.',
-              textAlign: TextAlign.center,
-              style: TextStyle(color: AppColors.muted)),
+          child: Text(
+            'Añade platos en la pestaña Carta para verlos aquí.',
+            textAlign: TextAlign.center,
+            style: TextStyle(color: AppColors.muted),
+          ),
         ),
       );
     }

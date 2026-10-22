@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../core/app_colors.dart';
-import '../models/menu_category.dart';
-import '../models/product.dart';
+import '../../core/app_colors.dart';
+import '../../core/models/menu_category.dart';
+import '../../core/models/product.dart';
 import '../providers/restaurant_provider.dart';
 import 'net_image.dart';
 import 'product_sheet.dart';
@@ -53,15 +53,20 @@ class _CategoryCardState extends ConsumerState<CategoryCard> {
         backgroundColor: AppColors.surface,
         title: const Text('Eliminar categoría'),
         content: Text(
-            '¿Eliminar "${widget.category.name}" y sus ${widget.category.products.length} platos?'),
+          '¿Eliminar "${widget.category.name}" y sus ${widget.category.products.length} platos?',
+        ),
         actions: [
           TextButton(
-              onPressed: () => Navigator.pop(ctx, false),
-              child: const Text('Cancelar')),
+            onPressed: () => Navigator.pop(ctx, false),
+            child: const Text('Cancelar'),
+          ),
           TextButton(
-              onPressed: () => Navigator.pop(ctx, true),
-              child: const Text('Eliminar',
-                  style: TextStyle(color: AppColors.red))),
+            onPressed: () => Navigator.pop(ctx, true),
+            child: const Text(
+              'Eliminar',
+              style: TextStyle(color: AppColors.red),
+            ),
+          ),
         ],
       ),
     );
@@ -94,13 +99,17 @@ class _CategoryCardState extends ConsumerState<CategoryCard> {
                           onSubmitted: (_) => _commit(),
                           onTapOutside: (_) => _commit(),
                           style: const TextStyle(
-                              fontSize: 15, fontWeight: FontWeight.w600),
+                            fontSize: 15,
+                            fontWeight: FontWeight.w600,
+                          ),
                           decoration: const InputDecoration(
                             isDense: true,
                             border: UnderlineInputBorder(
-                                borderSide: BorderSide(color: AppColors.red)),
+                              borderSide: BorderSide(color: AppColors.red),
+                            ),
                             focusedBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(color: AppColors.red)),
+                              borderSide: BorderSide(color: AppColors.red),
+                            ),
                           ),
                         )
                       : GestureDetector(
@@ -108,19 +117,27 @@ class _CategoryCardState extends ConsumerState<CategoryCard> {
                           behavior: HitTestBehavior.opaque,
                           child: Padding(
                             padding: const EdgeInsets.symmetric(vertical: 10),
-                            child: Text(cat.name,
-                                style: const TextStyle(
-                                    fontSize: 15, fontWeight: FontWeight.w600)),
+                            child: Text(
+                              cat.name,
+                              style: const TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
                           ),
                         ),
                 ),
-                Text('${cat.products.length} platos',
-                    style:
-                        const TextStyle(fontSize: 11, color: AppColors.muted)),
+                Text(
+                  '${cat.products.length} platos',
+                  style: const TextStyle(fontSize: 11, color: AppColors.muted),
+                ),
                 IconButton(
                   onPressed: _confirmDelete,
-                  icon: const Icon(Icons.delete_outline,
-                      size: 20, color: AppColors.muted),
+                  icon: const Icon(
+                    Icons.delete_outline,
+                    size: 20,
+                    color: AppColors.muted,
+                  ),
                 ),
               ],
             ),
@@ -136,24 +153,36 @@ class _CategoryCardState extends ConsumerState<CategoryCard> {
                 children: [
                   ClipRRect(
                     borderRadius: BorderRadius.circular(8),
-                    child: SizedBox(width: 52, height: 52, child: NetImage(p.image)),
+                    child: SizedBox(
+                      width: 52,
+                      height: 52,
+                      child: NetImage(p.image),
+                    ),
                   ),
                   const SizedBox(width: 12),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(p.name,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(
-                                fontSize: 14, fontWeight: FontWeight.w600)),
+                        Text(
+                          p.name,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
                         const SizedBox(height: 2),
-                        Text(p.description,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(
-                                fontSize: 12, color: AppColors.muted)),
+                        Text(
+                          p.description,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
+                            fontSize: 12,
+                            color: AppColors.muted,
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -161,11 +190,14 @@ class _CategoryCardState extends ConsumerState<CategoryCard> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      Text('${p.price}€',
-                          style: const TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w700,
-                              color: AppColors.red)),
+                      Text(
+                        '${p.price}€',
+                        style: const TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w700,
+                          color: AppColors.red,
+                        ),
+                      ),
                       const SizedBox(height: 6),
                       Row(
                         children: [
@@ -174,8 +206,7 @@ class _CategoryCardState extends ConsumerState<CategoryCard> {
                           _MiniBtn(
                             label: '✕',
                             danger: true,
-                            onTap: () =>
-                                _notifier.deleteProduct(cat.id, p.id),
+                            onTap: () => _notifier.deleteProduct(cat.id, p.id),
                           ),
                         ],
                       ),
@@ -201,11 +232,13 @@ class _CategoryCardState extends ConsumerState<CategoryCard> {
                   side: const BorderSide(color: AppColors.border),
                   padding: const EdgeInsets.symmetric(vertical: 12),
                   shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8)),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
                 ),
-                child: const Text('+ Añadir plato',
-                    style:
-                        TextStyle(fontSize: 13, fontWeight: FontWeight.w500)),
+                child: const Text(
+                  '+ Añadir plato',
+                  style: TextStyle(fontSize: 13, fontWeight: FontWeight.w500),
+                ),
               ),
             ),
           ),
@@ -216,7 +249,11 @@ class _CategoryCardState extends ConsumerState<CategoryCard> {
 }
 
 class _MiniBtn extends StatelessWidget {
-  const _MiniBtn({required this.label, required this.onTap, this.danger = false});
+  const _MiniBtn({
+    required this.label,
+    required this.onTap,
+    this.danger = false,
+  });
   final String label;
   final VoidCallback onTap;
   final bool danger;
@@ -227,17 +264,22 @@ class _MiniBtn extends StatelessWidget {
       color: danger ? AppColors.redSoft : AppColors.surface2,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(6),
-        side: danger ? BorderSide.none : const BorderSide(color: AppColors.border),
+        side: danger
+            ? BorderSide.none
+            : const BorderSide(color: AppColors.border),
       ),
       child: InkWell(
         borderRadius: BorderRadius.circular(6),
         onTap: onTap,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-          child: Text(label,
-              style: TextStyle(
-                  fontSize: 12,
-                  color: danger ? AppColors.red : AppColors.text)),
+          child: Text(
+            label,
+            style: TextStyle(
+              fontSize: 12,
+              color: danger ? AppColors.red : AppColors.text,
+            ),
+          ),
         ),
       ),
     );

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../core/app_colors.dart';
-import '../../core/theme.dart';
+import '../../../core/app_colors.dart';
+import '../../../core/theme.dart';
 import '../../providers/restaurant_provider.dart';
 import '../../widgets/app_field.dart';
 import '../../widgets/net_image.dart';
@@ -40,11 +40,14 @@ class GeneralTab extends ConsumerWidget {
                 Positioned(
                   left: 14,
                   bottom: 12,
-                  child: Text(config.name,
-                      style: const TextStyle(
-                          fontFamily: kSerif,
-                          fontSize: 20,
-                          color: Colors.white)),
+                  child: Text(
+                    config.name,
+                    style: const TextStyle(
+                      fontFamily: kSerif,
+                      fontSize: 20,
+                      color: Colors.white,
+                    ),
+                  ),
                 ),
               ],
             ),
@@ -71,16 +74,18 @@ class GeneralTab extends ConsumerWidget {
           children: [
             Expanded(
               child: TimeField(
-                  label: 'Hora apertura',
-                  value: config.openTime,
-                  onChanged: notifier.setOpenTime),
+                label: 'Hora apertura',
+                value: config.openTime,
+                onChanged: notifier.setOpenTime,
+              ),
             ),
             const SizedBox(width: 12),
             Expanded(
               child: TimeField(
-                  label: 'Hora cierre',
-                  value: config.closeTime,
-                  onChanged: notifier.setCloseTime),
+                label: 'Hora cierre',
+                value: config.closeTime,
+                onChanged: notifier.setCloseTime,
+              ),
             ),
           ],
         ),
@@ -97,24 +102,32 @@ class GeneralTab extends ConsumerWidget {
               Row(
                 children: [
                   const Expanded(
-                    child: Text('Horario de servicio',
-                        style: TextStyle(
-                            fontSize: 13,
-                            fontWeight: FontWeight.w500,
-                            color: AppColors.muted)),
+                    child: Text(
+                      'Horario de servicio',
+                      style: TextStyle(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w500,
+                        color: AppColors.muted,
+                      ),
+                    ),
                   ),
                   Container(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: 3,
+                    ),
                     decoration: BoxDecoration(
                       color: AppColors.redSoft,
                       borderRadius: BorderRadius.circular(20),
                     ),
-                    child: const Text('Hoy activo',
-                        style: TextStyle(
-                            fontSize: 11,
-                            fontWeight: FontWeight.w600,
-                            color: AppColors.red)),
+                    child: const Text(
+                      'Hoy activo',
+                      style: TextStyle(
+                        fontSize: 11,
+                        fontWeight: FontWeight.w600,
+                        color: AppColors.red,
+                      ),
+                    ),
                   ),
                 ],
               ),
@@ -122,33 +135,49 @@ class GeneralTab extends ConsumerWidget {
               Row(
                 children: [
                   Container(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 14,
+                      vertical: 8,
+                    ),
                     decoration: const BoxDecoration(
                       color: AppColors.red,
-                      borderRadius:
-                          BorderRadius.horizontal(left: Radius.circular(6)),
+                      borderRadius: BorderRadius.horizontal(
+                        left: Radius.circular(6),
+                      ),
                     ),
-                    child: Text(config.openTime,
-                        style: const TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w700,
-                            color: Colors.white)),
+                    child: Text(
+                      config.openTime,
+                      style: const TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w700,
+                        color: Colors.white,
+                      ),
+                    ),
                   ),
-                  Expanded(child: Container(height: 4, color: AppColors.redSoft)),
+                  Expanded(
+                    child: Container(height: 4, color: AppColors.redSoft),
+                  ),
                   Container(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 14,
+                      vertical: 8,
+                    ),
                     decoration: const BoxDecoration(
                       color: AppColors.surface2,
                       border: Border.fromBorderSide(
-                          BorderSide(color: AppColors.border)),
-                      borderRadius:
-                          BorderRadius.horizontal(right: Radius.circular(6)),
+                        BorderSide(color: AppColors.border),
+                      ),
+                      borderRadius: BorderRadius.horizontal(
+                        right: Radius.circular(6),
+                      ),
                     ),
-                    child: Text(config.closeTime,
-                        style: const TextStyle(
-                            fontSize: 15, fontWeight: FontWeight.w700)),
+                    child: Text(
+                      config.closeTime,
+                      style: const TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
                   ),
                 ],
               ),

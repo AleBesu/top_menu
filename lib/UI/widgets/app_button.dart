@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import '../core/app_colors.dart';
+
+import '../../core/app_colors.dart';
 
 enum BtnVariant { primary, ghost, danger }
 
@@ -20,10 +21,10 @@ class AppButton extends StatelessWidget {
     final (bg, fg, side) = switch (variant) {
       BtnVariant.primary => (AppColors.red, Colors.white, BorderSide.none),
       BtnVariant.ghost => (
-          AppColors.surface2,
-          AppColors.text,
-          const BorderSide(color: AppColors.border)
-        ),
+        AppColors.surface2,
+        AppColors.text,
+        const BorderSide(color: AppColors.border),
+      ),
       BtnVariant.danger => (AppColors.redSoft, AppColors.red, BorderSide.none),
     };
     return ElevatedButton(

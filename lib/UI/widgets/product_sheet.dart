@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../core/app_colors.dart';
-import '../core/utils.dart';
-import '../models/product.dart';
+import '../../core/app_colors.dart';
+import '../../core/utils.dart';
+import '../../core/models/product.dart';
 import 'app_button.dart';
 import 'app_field.dart';
 import 'net_image.dart';
@@ -32,8 +32,9 @@ class _ProductSheet extends StatefulWidget {
 class _ProductSheetState extends State<_ProductSheet> {
   late final _image = TextEditingController(text: widget.product?.image ?? '');
   late final _name = TextEditingController(text: widget.product?.name ?? '');
-  late final _desc =
-      TextEditingController(text: widget.product?.description ?? '');
+  late final _desc = TextEditingController(
+    text: widget.product?.description ?? '',
+  );
   late final _price = TextEditingController(text: widget.product?.price ?? '');
   bool _submitted = false;
 
@@ -73,7 +74,9 @@ class _ProductSheetState extends State<_ProductSheet> {
   Widget build(BuildContext context) {
     final isEdit = widget.product != null;
     return Padding(
-      padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+      padding: EdgeInsets.only(
+        bottom: MediaQuery.of(context).viewInsets.bottom,
+      ),
       child: SingleChildScrollView(
         padding: const EdgeInsets.fromLTRB(24, 24, 24, 32),
         child: Column(
@@ -86,7 +89,9 @@ class _ProductSheetState extends State<_ProductSheet> {
                   child: Text(
                     isEdit ? 'Editar producto' : 'Nuevo producto',
                     style: const TextStyle(
-                        fontSize: 17, fontWeight: FontWeight.w700),
+                      fontSize: 17,
+                      fontWeight: FontWeight.w700,
+                    ),
                   ),
                 ),
                 IconButton(
@@ -104,10 +109,11 @@ class _ProductSheetState extends State<_ProductSheet> {
             ],
             const SizedBox(height: 16),
             AppField(
-                label: 'URL de imagen',
-                controller: _image,
-                hint: 'https://...',
-                keyboardType: TextInputType.url),
+              label: 'URL de imagen',
+              controller: _image,
+              hint: 'https://...',
+              keyboardType: TextInputType.url,
+            ),
             const SizedBox(height: 16),
             AppField(
               label: 'Nombre',
@@ -129,8 +135,9 @@ class _ProductSheetState extends State<_ProductSheet> {
               label: 'Precio (€)',
               controller: _price,
               hint: '0.00',
-              keyboardType:
-                  const TextInputType.numberWithOptions(decimal: true),
+              keyboardType: const TextInputType.numberWithOptions(
+                decimal: true,
+              ),
               errorText: _submitted && _price.text.trim().isEmpty
                   ? 'Obligatorio'
                   : null,
