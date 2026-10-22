@@ -64,7 +64,7 @@ class _CategoryCardState extends ConsumerState<CategoryCard> {
             onPressed: () => Navigator.pop(ctx, true),
             child: const Text(
               'Eliminar',
-              style: TextStyle(color: AppColors.red),
+              style: TextStyle(color: AppColors.primary),
             ),
           ),
         ],
@@ -105,10 +105,10 @@ class _CategoryCardState extends ConsumerState<CategoryCard> {
                           decoration: const InputDecoration(
                             isDense: true,
                             border: UnderlineInputBorder(
-                              borderSide: BorderSide(color: AppColors.red),
+                              borderSide: BorderSide(color: AppColors.primary),
                             ),
                             focusedBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: AppColors.red),
+                              borderSide: BorderSide(color: AppColors.primary),
                             ),
                           ),
                         )
@@ -195,7 +195,7 @@ class _CategoryCardState extends ConsumerState<CategoryCard> {
                         style: const TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w700,
-                          color: AppColors.red,
+                          color: AppColors.primary,
                         ),
                       ),
                       const SizedBox(height: 6),
@@ -277,7 +277,7 @@ class _MiniBtn extends StatelessWidget {
             label,
             style: TextStyle(
               fontSize: 12,
-              color: danger ? AppColors.red : AppColors.text,
+              color: danger ? AppColors.primary : AppColors.text,
             ),
           ),
         ),

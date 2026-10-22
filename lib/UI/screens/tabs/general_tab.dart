@@ -125,7 +125,7 @@ class GeneralTab extends ConsumerWidget {
                       style: TextStyle(
                         fontSize: 11,
                         fontWeight: FontWeight.w600,
-                        color: AppColors.red,
+                        color: AppColors.primary,
                       ),
                     ),
                   ),
@@ -140,7 +140,7 @@ class GeneralTab extends ConsumerWidget {
                       vertical: 8,
                     ),
                     decoration: const BoxDecoration(
-                      color: AppColors.red,
+                      color: AppColors.primary,
                       borderRadius: BorderRadius.horizontal(
                         left: Radius.circular(6),
                       ),

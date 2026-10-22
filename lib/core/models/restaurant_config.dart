@@ -21,12 +21,11 @@ class RestaurantConfig {
     String? openTime,
     String? closeTime,
     List<MenuCategory>? categories,
-  }) =>
-      RestaurantConfig(
-        name: name ?? this.name,
-        banner: banner ?? this.banner,
-        openTime: openTime ?? this.openTime,
-        closeTime: closeTime ?? this.closeTime,
-        categories: categories ?? this.categories,
-      );
+  }) => RestaurantConfig(
+    name: name ?? this.name,
+    banner: banner ?? this.banner,
+    openTime: openTime ?? this.openTime,
+    closeTime: closeTime ?? this.closeTime,
+    categories: categories ?? this.categories,
+  );
 }

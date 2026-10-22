@@ -28,7 +28,7 @@ class AppTopTabs extends ConsumerWidget {
                   right: t == AppTab.values.last ? 0 : 8,
                 ),
                 child: Material(
-                  color: t == current ? AppColors.red : AppColors.surface2,
+                  color: t == current ? AppColors.primary : AppColors.surface2,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(9),
                     side: t == current
@@ -54,57 +54,6 @@ class AppTopTabs extends ConsumerWidget {
                       ),
                     ),
                   ),
-                ),
-              ),
-            ),
-        ],
-      ),
-    );
-  }
-}
-
-class AppBottomNav extends ConsumerWidget {
-  const AppBottomNav({super.key});
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final current = ref.watch(tabProvider);
-    return Container(
-      padding: const EdgeInsets.fromLTRB(20, 8, 20, 12),
-      decoration: const BoxDecoration(
-        color: AppColors.surface,
-        border: Border(top: BorderSide(color: AppColors.border)),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          for (final t in AppTab.values)
-            InkWell(
-              borderRadius: BorderRadius.circular(10),
-              onTap: () => ref.read(tabProvider.notifier).select(t),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 20,
-                  vertical: 4,
-                ),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Icon(
-                      t.icon,
-                      size: 22,
-                      color: t == current ? AppColors.red : AppColors.muted,
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      t.label,
-                      style: TextStyle(
-                        fontSize: 11,
-                        fontWeight: FontWeight.w600,
-                        color: t == current ? AppColors.red : AppColors.muted,
-                      ),
-                    ),
-                  ],
                 ),
               ),
             ),

@@ -30,11 +30,11 @@ class ClassicMenuView extends StatelessWidget {
                 fontFamily: kSerif,
                 fontSize: 18,
                 letterSpacing: 4,
-                color: AppColors.red,
+                color: AppColors.primary,
               ),
             ),
             const SizedBox(height: 6),
-            Container(width: 32, height: 1, color: AppColors.red),
+            Container(width: 32, height: 1, color: AppColors.primary),
             const SizedBox(height: 20),
             for (final p in c.products)
               Padding(

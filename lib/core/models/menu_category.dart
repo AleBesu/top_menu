@@ -1,3 +1,5 @@
+import 'package:top_menu/core/utils.dart';
+
 import 'product.dart';
 
 class MenuCategory {
@@ -5,11 +7,8 @@ class MenuCategory {
   final String name;
   final List<Product> products;
 
-  const MenuCategory({
-    required this.id,
-    required this.name,
-    required this.products,
-  });
+  MenuCategory({String? id, required this.name, this.products = const []})
+    : id = id ?? uid();
 
   MenuCategory copyWith({String? name, List<Product>? products}) =>
       MenuCategory(

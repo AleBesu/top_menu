@@ -45,7 +45,7 @@ class CardsMenuView extends StatelessWidget {
                             vertical: 6,
                           ),
                           decoration: BoxDecoration(
-                            color: AppColors.red,
+                            color: AppColors.primary,
                             borderRadius: BorderRadius.circular(20),
                           ),
                           child: Text(

@@ -13,30 +13,20 @@ import 'tabs/general_tab.dart';
 import 'tabs/menu_tab.dart';
 import 'tabs/preview_tab.dart';
 
-class HomeScreen extends ConsumerStatefulWidget {
-  const HomeScreen({super.key});
+class AdmiMenuScreen extends ConsumerStatefulWidget {
+  const AdmiMenuScreen({super.key});
 
   @override
-  ConsumerState<HomeScreen> createState() => _HomeScreenState();
+  ConsumerState<AdmiMenuScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends ConsumerState<HomeScreen> {
-  bool _saved = false;
+class _HomeScreenState extends ConsumerState<AdmiMenuScreen> {
   Timer? _timer;
 
   @override
   void dispose() {
     _timer?.cancel();
     super.dispose();
-  }
-
-  void _handleSave() {
-    // Aquí iría la persistencia (API / Firestore / etc.).
-    setState(() => _saved = true);
-    _timer?.cancel();
-    _timer = Timer(const Duration(seconds: 2), () {
-      if (mounted) setState(() => _saved = false);
-    });
   }
 
   @override
@@ -66,7 +56,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                 fontSize: 12,
                                 fontWeight: FontWeight.w600,
                                 letterSpacing: 1.2,
-                                color: AppColors.red,
+                                color: AppColors.primary,
                               ),
                             ),
                             const SizedBox(height: 4),
@@ -85,11 +75,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       ),
                       const SizedBox(width: 12),
                       ElevatedButton(
-                        onPressed: _handleSave,
+                        onPressed: () {},
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: _saved
-                              ? AppColors.green
-                              : AppColors.red,
+                          backgroundColor: AppColors.primary,
                           foregroundColor: Colors.white,
                           elevation: 0,
                           padding: const EdgeInsets.symmetric(
@@ -104,12 +92,13 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                             fontWeight: FontWeight.w600,
                           ),
                         ),
-                        child: Text(_saved ? '✓ Guardado' : 'Guardar'),
+                        child: Text('Crear'),
                       ),
                     ],
                   ),
                 ),
                 const AppTopTabs(),
+                //bodys
                 Expanded(
                   child: switch (tab) {
                     AppTab.general => const GeneralTab(),
@@ -117,7 +106,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     AppTab.preview => const PreviewTab(),
                   },
                 ),
-                const AppBottomNav(),
               ],
             ),
           ),

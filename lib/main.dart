@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:top_menu/core/datasourses/hive_restaurant_local_data_source.dart';
 
 import 'core/theme.dart';
-import 'UI/screens/home_screen.dart';
+import 'UI/screens/admi_menu.dart';
 
-void main() => runApp(const ProviderScope(child: MenuAdminApp()));
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await HiveRestaurantLocalDataSource.init();
+
+  runApp(const ProviderScope(child: MenuAdminApp()));
+}
 
 class MenuAdminApp extends StatelessWidget {
   const MenuAdminApp({super.key});
@@ -16,7 +22,7 @@ class MenuAdminApp extends StatelessWidget {
         title: 'TopMenu',
         debugShowCheckedModeBanner: false,
         theme: buildTheme(),
-        home: const HomeScreen(),
+        home: AdmiMenuScreen(),
       ),
     );
   }

@@ -19,13 +19,17 @@ class AppButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final (bg, fg, side) = switch (variant) {
-      BtnVariant.primary => (AppColors.red, Colors.white, BorderSide.none),
+      BtnVariant.primary => (AppColors.primary, Colors.white, BorderSide.none),
       BtnVariant.ghost => (
         AppColors.surface2,
         AppColors.text,
         const BorderSide(color: AppColors.border),
       ),
-      BtnVariant.danger => (AppColors.redSoft, AppColors.red, BorderSide.none),
+      BtnVariant.danger => (
+        AppColors.redSoft,
+        AppColors.primary,
+        BorderSide.none,
+      ),
     };
     return ElevatedButton(
       onPressed: onPressed,

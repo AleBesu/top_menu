@@ -8,7 +8,7 @@ class AppColors {
   static const border = Color(0xFF2A2A2A);
   static const text = Color(0xFFF5F5F5);
   static const muted = Color(0xFF8A8A8A);
-  static const red = Color(0xFFE63946);
-  static const redSoft = Color(0x26E63946);
+  static const primary = Colors.blue;
+  static const redSoft = Color(0x260A84FF);
   static const green = Color(0xFF16A34A);
 }

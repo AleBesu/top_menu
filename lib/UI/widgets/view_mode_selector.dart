@@ -24,7 +24,7 @@ class ViewModeSelector extends ConsumerWidget {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12),
                   side: BorderSide(
-                    color: m == current ? AppColors.red : AppColors.border,
+                    color: m == current ? AppColors.primary : AppColors.border,
                   ),
                 ),
                 child: InkWell(
@@ -37,7 +37,9 @@ class ViewModeSelector extends ConsumerWidget {
                         Icon(
                           m.icon,
                           size: 22,
-                          color: m == current ? AppColors.red : AppColors.muted,
+                          color: m == current
+                              ? AppColors.primary
+                              : AppColors.muted,
                         ),
                         const SizedBox(height: 6),
                         Text(
@@ -46,7 +48,7 @@ class ViewModeSelector extends ConsumerWidget {
                             fontSize: 11,
                             fontWeight: FontWeight.w600,
                             color: m == current
-                                ? AppColors.red
+                                ? AppColors.primary
                                 : AppColors.muted,
                           ),
                         ),
