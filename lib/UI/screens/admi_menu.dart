@@ -2,9 +2,12 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:network_info_plus/network_info_plus.dart';
+import 'package:top_menu/UI/screens/server_iniciated_screen.dart';
+import 'package:top_menu/core/services/server_handle/server_handle.dart';
 
-import '../../core/app_colors.dart';
-import '../../core/theme.dart';
+import '../../app/app_colors.dart';
+import '../../app/theme.dart';
 import '../../core/models/app_tab.dart';
 import '../providers/restaurant_provider.dart';
 import '../providers/ui_providers.dart';
@@ -21,6 +24,7 @@ class AdmiMenuScreen extends ConsumerStatefulWidget {
 }
 
 class _HomeScreenState extends ConsumerState<AdmiMenuScreen> {
+  bool isLoading = false;
   Timer? _timer;
 
   @override
@@ -74,26 +78,61 @@ class _HomeScreenState extends ConsumerState<AdmiMenuScreen> {
                         ),
                       ),
                       const SizedBox(width: 12),
-                      ElevatedButton(
-                        onPressed: () {},
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColors.primary,
-                          foregroundColor: Colors.white,
-                          elevation: 0,
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 16,
-                            vertical: 12,
+                      if (isLoading)
+                        CircularProgressIndicator()
+                      else
+                        ElevatedButton(
+                          onPressed: () async {
+                            setState(() {
+                              isLoading = true;
+                            });
+
+                            final ip = await (NetworkInfo().getWifiIP());
+
+                            if (ip != null) {
+                              await ServerHandle.startWebServer();
+
+                              await Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (_) =>
+                                      ServerScreen(ip: ip, port: 8080),
+                                ),
+                              );
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  backgroundColor: Colors.red,
+                                  content: Text(
+                                    "Conectate a una red Wifi",
+                                    style: TextStyle(color: Colors.white),
+                                  ),
+                                ),
+                              );
+                            }
+
+                            await ServerHandle.stopWebServer();
+                            setState(() {
+                              isLoading = false;
+                            });
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: AppColors.primary,
+                            foregroundColor: Colors.white,
+                            elevation: 0,
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 16,
+                              vertical: 12,
+                            ),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            textStyle: const TextStyle(
+                              fontSize: 13,
+                              fontWeight: FontWeight.w600,
+                            ),
                           ),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          textStyle: const TextStyle(
-                            fontSize: 13,
-                            fontWeight: FontWeight.w600,
-                          ),
+                          child: Text('Crear'),
                         ),
-                        child: Text('Crear'),
-                      ),
                     ],
                   ),
                 ),

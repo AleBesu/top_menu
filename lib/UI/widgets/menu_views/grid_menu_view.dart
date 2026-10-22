@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../core/app_colors.dart';
+import '../../../app/app_colors.dart';
 import '../../../core/utils.dart';
 import '../../../core/models/menu_category.dart';
 import '../../../core/models/product.dart';
@@ -50,7 +50,7 @@ class _Tile extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Expanded(flex: 5, child: NetImage(product.image)),
+          Expanded(flex: 5, child: FileImageWidget(product.imagePath)),
           Expanded(
             flex: 4,
             child: Padding(

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../core/app_colors.dart';
+import '../../app/app_colors.dart';
 
 enum BtnVariant { primary, ghost, danger }
 

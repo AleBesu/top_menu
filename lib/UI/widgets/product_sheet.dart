@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:top_menu/UI/providers/restaurant_provider.dart';
+import 'package:top_menu/core/services/file_handle/file_handle.dart';
 
-import '../../core/app_colors.dart';
+import '../../app/app_colors.dart';
 import '../../core/utils.dart';
 import '../../core/models/product.dart';
 import 'app_button.dart';
@@ -21,16 +24,16 @@ Future<Product?> showProductSheet(BuildContext context, {Product? product}) {
   );
 }
 
-class _ProductSheet extends StatefulWidget {
+class _ProductSheet extends ConsumerStatefulWidget {
   const _ProductSheet({this.product});
   final Product? product;
 
   @override
-  State<_ProductSheet> createState() => _ProductSheetState();
+  ConsumerState<_ProductSheet> createState() => _ProductSheetState();
 }
 
-class _ProductSheetState extends State<_ProductSheet> {
-  late final _image = TextEditingController(text: widget.product?.image ?? '');
+class _ProductSheetState extends ConsumerState<_ProductSheet> {
+  String? _imagePath;
   late final _name = TextEditingController(text: widget.product?.name ?? '');
   late final _desc = TextEditingController(
     text: widget.product?.description ?? '',
@@ -41,12 +44,10 @@ class _ProductSheetState extends State<_ProductSheet> {
   @override
   void initState() {
     super.initState();
-    _image.addListener(() => setState(() {}));
   }
 
   @override
   void dispose() {
-    _image.dispose();
     _name.dispose();
     _desc.dispose();
     _price.dispose();
@@ -65,7 +66,7 @@ class _ProductSheetState extends State<_ProductSheet> {
         name: name,
         description: _desc.text.trim(),
         price: price,
-        image: _image.text.trim(),
+        imagePath: _imagePath,
       ),
     );
   }
@@ -100,20 +101,36 @@ class _ProductSheetState extends State<_ProductSheet> {
                 ),
               ],
             ),
-            if (_image.text.trim().isNotEmpty) ...[
-              const SizedBox(height: 8),
-              ClipRRect(
-                borderRadius: BorderRadius.circular(10),
-                child: SizedBox(height: 140, child: NetImage(_image.text)),
+
+            const SizedBox(height: 8),
+            ClipRRect(
+              borderRadius: BorderRadius.circular(10),
+              child: SizedBox(
+                height: 140,
+                child: Stack(
+                  children: [
+                    FileImageWidget(_imagePath),
+                    Positioned(
+                      top: 8,
+                      right: 8,
+                      child: IconButton.filled(
+                        icon: Icon(Icons.edit),
+                        onPressed: () async {
+                          final newImage = await FilesHandle.pickerImage();
+
+                          if (newImage != null) {
+                            setState(() {
+                              _imagePath = newImage.file.path;
+                            });
+                          }
+                        },
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ],
-            const SizedBox(height: 16),
-            AppField(
-              label: 'URL de imagen',
-              controller: _image,
-              hint: 'https://...',
-              keyboardType: TextInputType.url,
             ),
+
             const SizedBox(height: 16),
             AppField(
               label: 'Nombre',

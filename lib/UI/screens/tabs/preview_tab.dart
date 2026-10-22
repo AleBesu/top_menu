@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../core/theme.dart';
+import '../../../app/theme.dart';
 import '../../providers/restaurant_provider.dart';
 import '../../providers/ui_providers.dart';
 import '../../widgets/menu_views/menu_view_builder.dart';
@@ -31,7 +31,7 @@ class PreviewTab extends ConsumerWidget {
             child: Stack(
               fit: StackFit.expand,
               children: [
-                NetImage(config.banner),
+                FileImageWidget(config.bannerPath),
                 const DecoratedBox(
                   decoration: BoxDecoration(
                     gradient: LinearGradient(

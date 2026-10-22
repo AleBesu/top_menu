@@ -1,8 +1,10 @@
+import 'package:archive/archive_io.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:top_menu/core/services/file_handle/file_handle.dart';
 
-import '../../../core/app_colors.dart';
-import '../../../core/theme.dart';
+import '../../../app/app_colors.dart';
+import '../../../app/theme.dart';
 import '../../providers/restaurant_provider.dart';
 import '../../widgets/app_field.dart';
 import '../../widgets/net_image.dart';
@@ -27,7 +29,7 @@ class GeneralTab extends ConsumerWidget {
             child: Stack(
               fit: StackFit.expand,
               children: [
-                NetImage(config.banner),
+                FileImageWidget(config.bannerPath),
                 const DecoratedBox(
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
@@ -49,18 +51,27 @@ class GeneralTab extends ConsumerWidget {
                     ),
                   ),
                 ),
+                Positioned(
+                  right: 8,
+                  top: 8,
+                  child: IconButton.filled(
+                    onPressed: () async {
+                      final newImage = await FilesHandle.pickerImage();
+
+                      if (newImage != null) {
+                        ref
+                            .read(restaurantProvider.notifier)
+                            .setBanner(newImage!.file.path);
+                      }
+                    },
+                    icon: const Icon(Icons.edit, color: Colors.white),
+                  ),
+                ),
               ],
             ),
           ),
         ),
-        const SizedBox(height: 12),
-        AppField(
-          label: 'URL de imagen del banner',
-          initialValue: config.banner,
-          onChanged: notifier.setBanner,
-          hint: 'https://...',
-          keyboardType: TextInputType.url,
-        ),
+
         const SizedBox(height: 24),
         const SectionHeader('Información del local'),
         AppField(
@@ -70,120 +81,120 @@ class GeneralTab extends ConsumerWidget {
           hint: 'Nombre del restaurante',
         ),
         const SizedBox(height: 14),
-        Row(
-          children: [
-            Expanded(
-              child: TimeField(
-                label: 'Hora apertura',
-                value: config.openTime,
-                onChanged: notifier.setOpenTime,
-              ),
-            ),
-            const SizedBox(width: 12),
-            Expanded(
-              child: TimeField(
-                label: 'Hora cierre',
-                value: config.closeTime,
-                onChanged: notifier.setCloseTime,
-              ),
-            ),
-          ],
-        ),
-        const SizedBox(height: 24),
-        Container(
-          padding: const EdgeInsets.all(16),
-          decoration: BoxDecoration(
-            color: AppColors.surface,
-            border: Border.all(color: AppColors.border),
-            borderRadius: BorderRadius.circular(12),
-          ),
-          child: Column(
-            children: [
-              Row(
-                children: [
-                  const Expanded(
-                    child: Text(
-                      'Horario de servicio',
-                      style: TextStyle(
-                        fontSize: 13,
-                        fontWeight: FontWeight.w500,
-                        color: AppColors.muted,
-                      ),
-                    ),
-                  ),
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 10,
-                      vertical: 3,
-                    ),
-                    decoration: BoxDecoration(
-                      color: AppColors.redSoft,
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: const Text(
-                      'Hoy activo',
-                      style: TextStyle(
-                        fontSize: 11,
-                        fontWeight: FontWeight.w600,
-                        color: AppColors.primary,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 12),
-              Row(
-                children: [
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 14,
-                      vertical: 8,
-                    ),
-                    decoration: const BoxDecoration(
-                      color: AppColors.primary,
-                      borderRadius: BorderRadius.horizontal(
-                        left: Radius.circular(6),
-                      ),
-                    ),
-                    child: Text(
-                      config.openTime,
-                      style: const TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w700,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: Container(height: 4, color: AppColors.redSoft),
-                  ),
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 14,
-                      vertical: 8,
-                    ),
-                    decoration: const BoxDecoration(
-                      color: AppColors.surface2,
-                      border: Border.fromBorderSide(
-                        BorderSide(color: AppColors.border),
-                      ),
-                      borderRadius: BorderRadius.horizontal(
-                        right: Radius.circular(6),
-                      ),
-                    ),
-                    child: Text(
-                      config.closeTime,
-                      style: const TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
+        // Row(
+        //   children: [
+        //     Expanded(
+        //       child: TimeField(
+        //         label: 'Hora apertura',
+        //         value: config.openTime,
+        //         onChanged: notifier.setOpenTime,
+        //       ),
+        //     ),
+        //     const SizedBox(width: 12),
+        //     Expanded(
+        //       child: TimeField(
+        //         label: 'Hora cierre',
+        //         value: config.closeTime,
+        //         onChanged: notifier.setCloseTime,
+        //       ),
+        //     ),
+        //   ],
+        // ),
+        // const SizedBox(height: 24),
+        // Container(
+        //   padding: const EdgeInsets.all(16),
+        //   decoration: BoxDecoration(
+        //     color: AppColors.surface,
+        //     border: Border.all(color: AppColors.border),
+        //     borderRadius: BorderRadius.circular(12),
+        //   ),
+        //   child: Column(
+        //     children: [
+        //       Row(
+        //         children: [
+        //           const Expanded(
+        //             child: Text(
+        //               'Horario de servicio',
+        //               style: TextStyle(
+        //                 fontSize: 13,
+        //                 fontWeight: FontWeight.w500,
+        //                 color: AppColors.muted,
+        //               ),
+        //             ),
+        //           ),
+        //           Container(
+        //             padding: const EdgeInsets.symmetric(
+        //               horizontal: 10,
+        //               vertical: 3,
+        //             ),
+        //             decoration: BoxDecoration(
+        //               color: AppColors.redSoft,
+        //               borderRadius: BorderRadius.circular(20),
+        //             ),
+        //             child: const Text(
+        //               'Hoy activo',
+        //               style: TextStyle(
+        //                 fontSize: 11,
+        //                 fontWeight: FontWeight.w600,
+        //                 color: AppColors.primary,
+        //               ),
+        //             ),
+        //           ),
+        //         ],
+        //       ),
+        //       const SizedBox(height: 12),
+        //       Row(
+        //         children: [
+        //           Container(
+        //             padding: const EdgeInsets.symmetric(
+        //               horizontal: 14,
+        //               vertical: 8,
+        //             ),
+        //             decoration: const BoxDecoration(
+        //               color: AppColors.primary,
+        //               borderRadius: BorderRadius.horizontal(
+        //                 left: Radius.circular(6),
+        //               ),
+        //             ),
+        //             child: Text(
+        //               config.openTime,
+        //               style: const TextStyle(
+        //                 fontSize: 15,
+        //                 fontWeight: FontWeight.w700,
+        //                 color: Colors.white,
+        //               ),
+        //             ),
+        //           ),
+        //           Expanded(
+        //             child: Container(height: 4, color: AppColors.redSoft),
+        //           ),
+        //           Container(
+        //             padding: const EdgeInsets.symmetric(
+        //               horizontal: 14,
+        //               vertical: 8,
+        //             ),
+        //             decoration: const BoxDecoration(
+        //               color: AppColors.surface2,
+        //               border: Border.fromBorderSide(
+        //                 BorderSide(color: AppColors.border),
+        //               ),
+        //               borderRadius: BorderRadius.horizontal(
+        //                 right: Radius.circular(6),
+        //               ),
+        //             ),
+        //             child: Text(
+        //               config.closeTime,
+        //               style: const TextStyle(
+        //                 fontSize: 15,
+        //                 fontWeight: FontWeight.w700,
+        //               ),
+        //             ),
+        //           ),
+        //         ],
+        //       ),
+        //     ],
+        //   ),
+        // ),
       ],
     );
   }

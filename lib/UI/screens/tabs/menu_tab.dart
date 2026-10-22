@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:top_menu/core/models/menu_category.dart';
 
-import '../../../core/app_colors.dart';
+import '../../../app/app_colors.dart';
 import '../../providers/restaurant_provider.dart';
 import '../../widgets/category_card.dart';
 import '../../widgets/section_header.dart';

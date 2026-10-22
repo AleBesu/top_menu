@@ -2,14 +2,14 @@ import 'menu_category.dart';
 
 class RestaurantConfig {
   final String name;
-  final String banner;
+  final String? bannerPath;
   final String openTime; // HH:mm
   final String closeTime; // HH:mm
   final List<MenuCategory> categories;
 
   const RestaurantConfig({
     required this.name,
-    required this.banner,
+    this.bannerPath,
     required this.openTime,
     required this.closeTime,
     required this.categories,
@@ -23,7 +23,7 @@ class RestaurantConfig {
     List<MenuCategory>? categories,
   }) => RestaurantConfig(
     name: name ?? this.name,
-    banner: banner ?? this.banner,
+    bannerPath: banner ?? this.bannerPath,
     openTime: openTime ?? this.openTime,
     closeTime: closeTime ?? this.closeTime,
     categories: categories ?? this.categories,

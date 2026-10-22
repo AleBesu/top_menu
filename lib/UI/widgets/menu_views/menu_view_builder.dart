@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../core/app_colors.dart';
+import '../../../app/app_colors.dart';
 import '../../../core/models/menu_category.dart';
 import '../../../core/models/menu_view_mode.dart';
 import 'cards_menu_view.dart';

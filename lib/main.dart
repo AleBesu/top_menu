@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:top_menu/core/datasourses/hive_restaurant_local_data_source.dart';
 
-import 'core/theme.dart';
+import 'app/theme.dart';
 import 'UI/screens/admi_menu.dart';
 
 void main() async {

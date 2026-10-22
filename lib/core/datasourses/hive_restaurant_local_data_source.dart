@@ -49,7 +49,7 @@ class HiveRestaurantLocalDataSource implements RestaurantLocalDataSource {
   Map<String, dynamic> _configToMap(RestaurantConfig config) {
     return {
       'name': config.name,
-      'banner': config.banner,
+      'banner': config.bannerPath,
       'openTime': config.openTime,
       'closeTime': config.closeTime,
       'categories': config.categories.map(_categoryToMap).toList(),
@@ -61,7 +61,7 @@ class HiveRestaurantLocalDataSource implements RestaurantLocalDataSource {
 
     return RestaurantConfig(
       name: json['name'] as String,
-      banner: json['banner'] as String,
+      bannerPath: json['banner'] as String,
       openTime: json['openTime'] as String,
       closeTime: json['closeTime'] as String,
       categories: categoriesJson.map((value) {
@@ -96,7 +96,7 @@ class HiveRestaurantLocalDataSource implements RestaurantLocalDataSource {
       'name': product.name,
       'description': product.description,
       'price': product.price,
-      'image': product.image,
+      'image': product.imagePath,
     };
   }
 
@@ -106,7 +106,7 @@ class HiveRestaurantLocalDataSource implements RestaurantLocalDataSource {
       name: json['name'] as String,
       description: json['description'] as String,
       price: json['price'] as String,
-      image: json['image'] as String,
+      imagePath: json['image'] as String,
     );
   }
 }

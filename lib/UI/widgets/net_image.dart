@@ -1,11 +1,13 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
-import '../../core/app_colors.dart';
+import '../../app/app_colors.dart';
 
 /// Imagen de red que rellena su contenedor, con placeholder si falla o está vacía.
-class NetImage extends StatelessWidget {
-  const NetImage(this.url, {super.key, this.fit = BoxFit.cover});
-  final String url;
+class FileImageWidget extends StatelessWidget {
+  const FileImageWidget(this.path, {super.key, this.fit = BoxFit.cover});
+  final String? path;
   final BoxFit fit;
 
   Widget get _placeholder => Container(
@@ -16,15 +18,14 @@ class NetImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (url.trim().isEmpty) return _placeholder;
-    return Image.network(
-      url,
+    if (path?.trim().isEmpty ?? true) return _placeholder;
+
+    return Image.file(
+      File(path!),
       fit: fit,
       width: double.infinity,
       height: double.infinity,
-      errorBuilder: (_, __, ___) => _placeholder,
-      loadingBuilder: (_, child, progress) =>
-          progress == null ? child : _placeholder,
+      errorBuilder: (_, _, _) => _placeholder,
     );
   }
 }

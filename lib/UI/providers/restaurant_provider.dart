@@ -165,7 +165,7 @@ final restaurantProvider =
 
 RestaurantConfig _initial() => RestaurantConfig(
   name: 'La Trattoria',
-  banner: 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&h=400&fit=crop&auto=format',
+  bannerPath: null,
   openTime: '12:00',
   closeTime: '23:00',
   categories: [
@@ -178,7 +178,7 @@ RestaurantConfig _initial() => RestaurantConfig(
           name: 'Bruschetta al pomodoro',
           description: 'Pan tostado con tomate fresco, albahaca y aceite de oliva virgen.',
           price: '6.50',
-          image: 'https://images.unsplash.com/photo-1572695157366-5e585ab2b69f?w=400&h=300&fit=crop&auto=format',
+          imagePath: 'https://images.unsplash.com/photo-1572695157366-5e585ab2b69f?w=400&h=300&fit=crop&auto=format',
         ),
       ],
     ),
@@ -191,7 +191,7 @@ RestaurantConfig _initial() => RestaurantConfig(
           name: 'Margherita',
           description: 'Salsa de tomate, mozzarella fior di latte y albahaca.',
           price: '12.00',
-          image: 'https://images.unsplash.com/photo-1604382355076-af4b0eb60143?w=400&h=300&fit=crop&auto=format',
+          imagePath: 'https://images.unsplash.com/photo-1604382355076-af4b0eb60143?w=400&h=300&fit=crop&auto=format',
         ),
         Product(
           id: uid(),
@@ -199,7 +199,7 @@ RestaurantConfig _initial() => RestaurantConfig(
           description:
               'Salsa de tomate, mozzarella, salami picante y guindilla.',
           price: '14.00',
-          image: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400&h=300&fit=crop&auto=format',
+          imagePath: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400&h=300&fit=crop&auto=format',
         ),
       ],
     ),

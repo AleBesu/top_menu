@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../core/app_colors.dart';
+import '../../../app/app_colors.dart';
 import '../../../core/utils.dart';
 import '../../../core/models/menu_category.dart';
 import '../net_image.dart';
@@ -28,7 +28,7 @@ class ListMenuView extends StatelessWidget {
                     child: SizedBox(
                       width: 72,
                       height: 72,
-                      child: NetImage(p.image),
+                      child: FileImageWidget(p.imagePath),
                     ),
                   ),
                   const SizedBox(width: 12),

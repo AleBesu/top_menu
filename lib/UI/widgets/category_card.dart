@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../core/app_colors.dart';
+import '../../app/app_colors.dart';
 import '../../core/models/menu_category.dart';
 import '../../core/models/product.dart';
 import '../providers/restaurant_provider.dart';
@@ -156,7 +156,7 @@ class _CategoryCardState extends ConsumerState<CategoryCard> {
                     child: SizedBox(
                       width: 52,
                       height: 52,
-                      child: NetImage(p.image),
+                      child: FileImageWidget(p.imagePath),
                     ),
                   ),
                   const SizedBox(width: 12),
