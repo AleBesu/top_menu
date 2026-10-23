@@ -13,7 +13,7 @@ class MenuTab extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final categories = ref.watch(
-      restaurantProvider.select((c) => c.categories),
+      restaurantConfigProvider.select((c) => c.categories),
     );
 
     return ListView(
@@ -29,7 +29,9 @@ class MenuTab extends ConsumerWidget {
           onPressed: () async {
             final newCategory = await showAddCategorySheet(context);
             if (newCategory != null) {
-              ref.read(restaurantProvider.notifier).addCategory(newCategory);
+              ref
+                  .read(restaurantConfigProvider.notifier)
+                  .addCategory(newCategory);
             }
           },
           style: OutlinedButton.styleFrom(

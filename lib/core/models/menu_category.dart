@@ -16,4 +16,25 @@ class MenuCategory {
         name: name ?? this.name,
         products: products ?? this.products,
       );
+
+  factory MenuCategory.fromJson(Map<String, dynamic> json) {
+    return MenuCategory(
+      id: json['id'] as String,
+      name: json['name'] as String,
+      products: (json['products'] as List<dynamic>? ?? [])
+          .map(
+            (product) =>
+                Product.fromJson(Map<String, dynamic>.from(product as Map)),
+          )
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'name': name,
+      'products': products.map((product) => product.toJson()).toList(),
+    };
+  }
 }

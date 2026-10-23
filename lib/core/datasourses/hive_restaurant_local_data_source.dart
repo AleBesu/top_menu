@@ -61,7 +61,7 @@ class HiveRestaurantLocalDataSource implements RestaurantLocalDataSource {
 
     return RestaurantConfig(
       name: json['name'] as String,
-      bannerPath: json['banner'] as String,
+      bannerPath: json['banner'] as String?,
       openTime: json['openTime'] as String,
       closeTime: json['closeTime'] as String,
       categories: categoriesJson.map((value) {
@@ -106,7 +106,7 @@ class HiveRestaurantLocalDataSource implements RestaurantLocalDataSource {
       name: json['name'] as String,
       description: json['description'] as String,
       price: json['price'] as String,
-      imagePath: json['image'] as String,
+      imagePath: json['image'] as String?,
     );
   }
 }

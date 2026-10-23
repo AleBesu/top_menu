@@ -20,7 +20,8 @@ class _CategoryCardState extends ConsumerState<CategoryCard> {
   bool _editing = false;
   late final _ctrl = TextEditingController(text: widget.category.name);
 
-  RestaurantNotifier get _notifier => ref.read(restaurantProvider.notifier);
+  RestaurantNotifier get _notifier =>
+      ref.read(restaurantConfigProvider.notifier);
 
   @override
   void dispose() {

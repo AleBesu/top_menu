@@ -14,7 +14,7 @@ class PreviewTab extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final config = ref.watch(restaurantProvider);
+    final config = ref.watch(restaurantConfigProvider);
     final mode = ref.watch(viewModeProvider);
 
     return ListView(

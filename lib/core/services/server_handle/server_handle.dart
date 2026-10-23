@@ -1,20 +1,49 @@
+import 'dart:convert';
 import 'dart:io';
 
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path/path.dart';
 import 'package:archive/archive_io.dart';
 import 'package:flutter/services.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shelf/shelf.dart';
 import 'package:shelf/shelf_io.dart' as shelf_io;
+import 'package:shelf_router/shelf_router.dart' as r;
 import 'package:shelf_static/shelf_static.dart';
+import 'package:top_menu/UI/providers/restaurant_provider.dart';
+import 'package:top_menu/UI/providers/ui_providers.dart';
+import 'package:top_menu/core/const/app_local_images_path.dart';
 
 abstract class ServerHandle {
-  Future<void> startServer();
-  Future<void> stopServer();
-  Future<void> restartServer();
+  //==========================SERVER HANDLE==========================
   static HttpServer? _server;
 
-  static Future<void> startWebServer({int port = 8080}) async {
+  static Future<void> init({required WidgetRef ref}) async {
+    try {
+      final webHandler = await startWebServer();
+      final apiServerHandler = await startApiServer(ref: ref);
+
+      final handler = Cascade().add(webHandler).add(apiServerHandler).handler;
+
+      // 6. Iniciar el servidor HTT
+      _server = await shelf_io.serve(handler, InternetAddress.anyIPv4, 8080);
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  static Future<void> stopServer() async {
+    final server = _server;
+
+    if (server == null) return;
+
+    await server.close(force: true);
+    _server = null;
+  }
+
+  ///==========================WEB SERVER==========================
+
+  static Future<Handler> startWebServer({int port = 8080}) async {
     // 1. Leer el ZIP desde los assets.
     final ByteData data = await rootBundle.load('assets/web.zip');
 
@@ -59,21 +88,46 @@ abstract class ServerHandle {
     }
 
     // 5. Crear el handler de archivos estáticos.
-    final Handler handler = createStaticHandler(
+    Handler handler = createStaticHandler(
       webDir.path,
       defaultDocument: 'index.html',
     );
 
-    // 6. Iniciar el servidor HTT
-    _server = await shelf_io.serve(handler, InternetAddress.anyIPv4, port);
+    return handler;
   }
 
-  static Future<void> stopWebServer() async {
-    final server = _server;
+  //==========================API SERVER==========================
 
-    if (server == null) return;
+  static Future<Handler> startApiServer({required WidgetRef ref}) async {
+    r.Router router = r.Router();
 
-    await server.close(force: true);
-    _server = null;
+    final restauranteConfigPro = ref.read(restaurantConfigProvider);
+    // final viewModePro = ref.read(viewModeProvider).name;
+
+    router.get('/get-menu-config', (Request req) {
+      return Response.ok(
+        jsonEncode({
+          "name": restauranteConfigPro.name,
+          "bannerPath": restauranteConfigPro.bannerPath,
+          "openTime": restauranteConfigPro.openTime,
+          "closeTime": restauranteConfigPro.closeTime,
+        }),
+      );
+    });
+
+    router.get('/fetch-categories-list', (Request req) {
+      return Response.ok(
+        jsonEncode(
+          restauranteConfigPro.categories.map((e) => e.toJson()).toList(),
+        ),
+      );
+    });
+
+    router.mount(
+      '/images/',
+      createStaticHandler(await appLocalImagesfolderPath()),
+    );
+
+    return router;
   }
 }

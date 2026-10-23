@@ -116,7 +116,10 @@ class _ProductSheetState extends ConsumerState<_ProductSheet> {
                       child: IconButton.filled(
                         icon: Icon(Icons.edit),
                         onPressed: () async {
-                          final newImage = await FilesHandle.pickerImage();
+                          final newImage =
+                              await FilesManagerService.pickerImage(
+                                copyToAppDirectory: true,
+                              );
 
                           if (newImage != null) {
                             setState(() {

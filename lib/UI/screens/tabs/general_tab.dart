@@ -15,8 +15,8 @@ class GeneralTab extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final config = ref.watch(restaurantProvider);
-    final notifier = ref.read(restaurantProvider.notifier);
+    final config = ref.watch(restaurantConfigProvider);
+    final notifier = ref.read(restaurantConfigProvider.notifier);
 
     return ListView(
       padding: const EdgeInsets.all(20),
@@ -56,11 +56,13 @@ class GeneralTab extends ConsumerWidget {
                   top: 8,
                   child: IconButton.filled(
                     onPressed: () async {
-                      final newImage = await FilesHandle.pickerImage();
+                      final newImage = await FilesManagerService.pickerImage(
+                        copyToAppDirectory: true,
+                      );
 
                       if (newImage != null) {
                         ref
-                            .read(restaurantProvider.notifier)
+                            .read(restaurantConfigProvider.notifier)
                             .setBanner(newImage!.file.path);
                       }
                     },

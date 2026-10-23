@@ -35,18 +35,18 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
   archive:  4.0.9
-  shelf_static:  1.1.3
+  shelf_static:  1.2.0
   shelf: 1.4.2 
+  shelf_router:  1.1.5 
   path_provider: 2.1.6
   network_info_plus: 8.2.1
-  shelf_router: 1.1.4 
   image_picker: 1.2.4
   shared_preferences:  2.5.5
   flutter_riverpod:  2.6.1
-  hive_ce_flutter: ^2.5.0
-  path: ^1.9.1
-  qr_flutter: ^4.1.0
-
+  hive_ce_flutter:  2.5.0
+  path:  1.9.1
+  qr_flutter:  4.1.0
+  image_cropper:  13.0.0
 dev_dependencies:
   flutter_test:
     sdk: flutter

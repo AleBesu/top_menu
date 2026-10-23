@@ -36,7 +36,7 @@ class _HomeScreenState extends ConsumerState<AdmiMenuScreen> {
   @override
   Widget build(BuildContext context) {
     final tab = ref.watch(tabProvider);
-    final name = ref.watch(restaurantProvider.select((c) => c.name));
+    final name = ref.watch(restaurantConfigProvider.select((c) => c.name));
 
     return Scaffold(
       body: SafeArea(
@@ -90,7 +90,7 @@ class _HomeScreenState extends ConsumerState<AdmiMenuScreen> {
                             final ip = await (NetworkInfo().getWifiIP());
 
                             if (ip != null) {
-                              await ServerHandle.startWebServer();
+                              await ServerHandle.init(ref: ref);
 
                               await Navigator.of(context).push(
                                 MaterialPageRoute(
@@ -110,7 +110,7 @@ class _HomeScreenState extends ConsumerState<AdmiMenuScreen> {
                               );
                             }
 
-                            await ServerHandle.stopWebServer();
+                            await ServerHandle.stopServer();
                             setState(() {
                               isLoading = false;
                             });

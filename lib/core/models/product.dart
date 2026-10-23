@@ -17,12 +17,32 @@ class Product {
     String? name,
     String? description,
     String? price,
-    String? image,
+    String? imagePath,
   }) => Product(
     id: id,
     name: name ?? this.name,
     description: description ?? this.description,
     price: price ?? this.price,
-    imagePath: image ?? this.imagePath,
+    imagePath: imagePath ?? this.imagePath,
   );
+
+  factory Product.fromJson(Map<String, dynamic> json) {
+    return Product(
+      id: json['id'] as String,
+      name: json['name'] as String,
+      description: json['description'] as String,
+      price: json['price'] as String,
+      imagePath: json['imagePath'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'name': name,
+      'description': description,
+      'price': price,
+      'imagePath': imagePath,
+    };
+  }
 }

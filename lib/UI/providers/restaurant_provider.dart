@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:archive/archive_io.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:top_menu/core/datasourses/hive_restaurant_local_data_source.dart';
@@ -8,11 +9,17 @@ import 'package:top_menu/core/models/product.dart';
 import 'package:top_menu/core/models/restaurant_config.dart';
 import 'package:top_menu/core/models/restaurant_config_repository.dart';
 import 'package:top_menu/core/repository/restaurant_local_datasource.dart';
+import 'package:top_menu/core/services/file_handle/file_handle.dart';
 import 'package:top_menu/core/utils.dart';
 
 // ── Inyección de dependencias
 
-final restaurantRepositoryProvider = Provider<RestaurantRepository>((ref) {
+final restaurantConfigProvider =
+    NotifierProvider<RestaurantNotifier, RestaurantConfig>(
+      RestaurantNotifier.new,
+    );
+
+final _restaurantRepositoryProvider = Provider<RestaurantRepository>((ref) {
   final dataSource = HiveRestaurantLocalDataSource();
 
   return HiveRestaurantRepository(dataSource);
@@ -24,7 +31,7 @@ class RestaurantNotifier extends Notifier<RestaurantConfig> {
   Future<void> _writeQueue = Future<void>.value();
 
   RestaurantRepository get _repository =>
-      ref.read(restaurantRepositoryProvider);
+      ref.read(_restaurantRepositoryProvider);
 
   @override
   RestaurantConfig build() {
@@ -35,12 +42,13 @@ class RestaurantNotifier extends Notifier<RestaurantConfig> {
       return savedConfig;
     }
 
-    final initialConfig = _initial();
-
-    // Guarda la configuración inicial para conservar también sus IDs.
-    _persistSnapshot(initialConfig);
-
-    return initialConfig;
+    return RestaurantConfig(
+      name: '',
+      bannerPath: null,
+      openTime: '08:00',
+      closeTime: '22:00',
+      categories: [],
+    );
   }
 
   // ── Persistencia
@@ -117,6 +125,8 @@ class RestaurantNotifier extends Notifier<RestaurantConfig> {
     _mapCategory(categoryId, (category) {
       final exists = category.products.any((p) => p.id == product.id);
 
+      //save product image in app documents directory
+
       return category.copyWith(
         products: exists
             ? [
@@ -156,52 +166,4 @@ class RestaurantNotifier extends Notifier<RestaurantConfig> {
   }
 }
 
-final restaurantProvider =
-    NotifierProvider<RestaurantNotifier, RestaurantConfig>(
-      RestaurantNotifier.new,
-    );
-
 // ── Configuración inicial de ejemplo
-
-RestaurantConfig _initial() => RestaurantConfig(
-  name: 'La Trattoria',
-  bannerPath: null,
-  openTime: '12:00',
-  closeTime: '23:00',
-  categories: [
-    MenuCategory(
-      id: uid(),
-      name: 'Entrantes',
-      products: [
-        Product(
-          id: uid(),
-          name: 'Bruschetta al pomodoro',
-          description: 'Pan tostado con tomate fresco, albahaca y aceite de oliva virgen.',
-          price: '6.50',
-          imagePath: 'https://images.unsplash.com/photo-1572695157366-5e585ab2b69f?w=400&h=300&fit=crop&auto=format',
-        ),
-      ],
-    ),
-    MenuCategory(
-      id: uid(),
-      name: 'Pizzas',
-      products: [
-        Product(
-          id: uid(),
-          name: 'Margherita',
-          description: 'Salsa de tomate, mozzarella fior di latte y albahaca.',
-          price: '12.00',
-          imagePath: 'https://images.unsplash.com/photo-1604382355076-af4b0eb60143?w=400&h=300&fit=crop&auto=format',
-        ),
-        Product(
-          id: uid(),
-          name: 'Diavola',
-          description:
-              'Salsa de tomate, mozzarella, salami picante y guindilla.',
-          price: '14.00',
-          imagePath: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400&h=300&fit=crop&auto=format',
-        ),
-      ],
-    ),
-  ],
-);
