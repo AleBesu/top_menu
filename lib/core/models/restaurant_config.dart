@@ -1,10 +1,18 @@
+import 'dart:ui';
+
+import 'package:top_menu/app/app_colors.dart';
+
 import 'menu_category.dart';
 
 class RestaurantConfig {
   final String name;
   final String? bannerPath;
-  final String openTime; // HH:mm
-  final String closeTime; // HH:mm
+  final String? openTime; // HH:mm
+  final String? closeTime; // HH:mm
+  final String? address;
+  final String? numberPhone;
+  final bool isDarkTheme;
+  final Color primaryColor;
   final List<MenuCategory> categories;
 
   const RestaurantConfig({
@@ -13,19 +21,34 @@ class RestaurantConfig {
     required this.openTime,
     required this.closeTime,
     required this.categories,
+    this.address,
+    this.numberPhone,
+    this.isDarkTheme = false,
+    this.primaryColor = AppColors.primary,
   });
 
   RestaurantConfig copyWith({
     String? name,
-    String? banner,
+    String? bannerPath,
+    bool clearBanner = false,
     String? openTime,
     String? closeTime,
+    String? address,
+    bool clearAddress = false,
+    String? numberPhone,
+    bool clearNumberPhone = false,
+    bool? isDarkTheme,
+    Color? primaryColor,
     List<MenuCategory>? categories,
   }) => RestaurantConfig(
     name: name ?? this.name,
-    bannerPath: banner ?? this.bannerPath,
+    bannerPath: clearBanner ? null : bannerPath ?? this.bannerPath,
     openTime: openTime ?? this.openTime,
     closeTime: closeTime ?? this.closeTime,
+    address: clearAddress ? null : address ?? this.address,
+    numberPhone: clearNumberPhone ? null : numberPhone ?? this.numberPhone,
+    isDarkTheme: isDarkTheme ?? this.isDarkTheme,
+    primaryColor: primaryColor ?? this.primaryColor,
     categories: categories ?? this.categories,
   );
 }

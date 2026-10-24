@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../app/app_colors.dart';
 import '../../../core/models/menu_category.dart';
-import '../../../core/models/menu_view_mode.dart';
+import '../../../core/enum/menu_layout_mode.dart';
 import 'cards_menu_view.dart';
 import 'classic_menu_view.dart';
 import 'grid_menu_view.dart';
@@ -14,7 +14,7 @@ class MenuViewBuilder extends StatelessWidget {
     required this.mode,
     required this.categories,
   });
-  final MenuViewMode mode;
+  final MenuLayoutMode mode;
   final List<MenuCategory> categories;
 
   @override
@@ -33,10 +33,10 @@ class MenuViewBuilder extends StatelessWidget {
       );
     }
     return switch (mode) {
-      MenuViewMode.list => ListMenuView(categories: visible),
-      MenuViewMode.grid => GridMenuView(categories: visible),
-      MenuViewMode.cards => CardsMenuView(categories: visible),
-      MenuViewMode.classic => ClassicMenuView(categories: visible),
+      MenuLayoutMode.list => ListMenuView(categories: visible),
+      MenuLayoutMode.grid => GridMenuView(categories: visible),
+      MenuLayoutMode.cards => CardsMenuView(categories: visible),
+      MenuLayoutMode.classic => ClassicMenuView(categories: visible),
     };
   }
 }

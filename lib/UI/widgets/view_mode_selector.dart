@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../app/app_colors.dart';
-import '../../core/models/menu_view_mode.dart';
+import '../../core/enum/menu_layout_mode.dart';
 import '../providers/ui_providers.dart';
 
 class ViewModeSelector extends ConsumerWidget {
@@ -10,14 +10,14 @@ class ViewModeSelector extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final current = ref.watch(viewModeProvider);
+    final current = ref.watch(menuViewConfigProvider);
     return Row(
       children: [
-        for (final m in MenuViewMode.values)
+        for (final m in MenuLayoutMode.values)
           Expanded(
             child: Padding(
               padding: EdgeInsets.only(
-                right: m == MenuViewMode.values.last ? 0 : 8,
+                right: m == MenuLayoutMode.values.last ? 0 : 8,
               ),
               child: Material(
                 color: m == current ? AppColors.redSoft : AppColors.surface,
@@ -29,7 +29,8 @@ class ViewModeSelector extends ConsumerWidget {
                 ),
                 child: InkWell(
                   borderRadius: BorderRadius.circular(12),
-                  onTap: () => ref.read(viewModeProvider.notifier).select(m),
+                  onTap: () =>
+                      ref.read(menuViewConfigProvider.notifier).select(m),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(vertical: 12),
                     child: Column(

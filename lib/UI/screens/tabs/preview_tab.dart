@@ -15,7 +15,7 @@ class PreviewTab extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final config = ref.watch(restaurantConfigProvider);
-    final mode = ref.watch(viewModeProvider);
+    final menuViewConfigPro = ref.watch(menuViewConfigProvider);
 
     return ListView(
       padding: const EdgeInsets.all(20),
@@ -75,7 +75,10 @@ class PreviewTab extends ConsumerWidget {
           ),
         ),
         const SizedBox(height: 24),
-        MenuViewBuilder(mode: mode, categories: config.categories),
+        MenuViewBuilder(
+          mode: menuViewConfigPro.menuLayoutMode,
+          categories: config.categories,
+        ),
         const SizedBox(height: 12),
       ],
     );

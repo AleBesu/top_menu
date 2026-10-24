@@ -85,7 +85,7 @@ class RestaurantNotifier extends Notifier<RestaurantConfig> {
   }
 
   void setBanner(String value) {
-    state = state.copyWith(banner: value);
+    state = state.copyWith(bannerPath: value);
     _persist();
   }
 

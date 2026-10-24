@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:network_info_plus/network_info_plus.dart';
 import 'package:path/path.dart';
 import 'package:archive/archive_io.dart';
 import 'package:flutter/services.dart';
@@ -43,7 +44,7 @@ abstract class ServerHandle {
 
   ///==========================WEB SERVER==========================
 
-  static Future<Handler> startWebServer({int port = 8080}) async {
+  static Future<Handler> startWebServer() async {
     // 1. Leer el ZIP desde los assets.
     final ByteData data = await rootBundle.load('assets/web.zip');
 
@@ -104,16 +105,29 @@ abstract class ServerHandle {
     final restauranteConfigPro = ref.read(restaurantConfigProvider);
     // final viewModePro = ref.read(viewModeProvider).name;
 
+    String? bannerUrl = restauranteConfigPro.bannerPath == null
+        ? null
+        : await _getLocalImageUrl(restauranteConfigPro.bannerPath!);
+
     router.get('/get-menu-config', (Request req) {
       return Response.ok(
         jsonEncode({
           "name": restauranteConfigPro.name,
-          "bannerPath": restauranteConfigPro.bannerPath,
+          "bannerUrl": bannerUrl,
           "openTime": restauranteConfigPro.openTime,
           "closeTime": restauranteConfigPro.closeTime,
         }),
       );
     });
+
+    //set Url image to products
+    for (var category in restauranteConfigPro.categories) {
+      for (var product in category.products) {
+        product.imageUrl = product.imagePath != null
+            ? await _getLocalImageUrl(product.imagePath!)
+            : null;
+      }
+    }
 
     router.get('/fetch-categories-list', (Request req) {
       return Response.ok(
@@ -129,5 +143,17 @@ abstract class ServerHandle {
     );
 
     return router;
+  }
+
+  static Future<String> _getLocalImageUrl(String imagePath) async {
+    try {
+      final ip = await NetworkInfo().getWifiIP();
+
+      final imageFileName = imagePath.split('/').last;
+
+      return 'http://$ip:8080/images/$imageFileName';
+    } catch (e) {
+      rethrow;
+    }
   }
 }
