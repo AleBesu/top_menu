@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:hive_ce_flutter/hive_ce_flutter.dart';
+import 'package:top_menu/app/app_colors.dart';
 import 'package:top_menu/core/extensions/color.dart';
 import 'package:top_menu/core/models/menu_category.dart';
 import 'package:top_menu/core/models/product.dart';
@@ -65,8 +66,12 @@ class HiveRestaurantLocalDataSource implements RestaurantLocalDataSource {
       bannerPath: json['banner'] as String?,
       openTime: json['openTime'] as String?,
       closeTime: json['closeTime'] as String?,
-      primaryColor: colorFromJson(json['primaryColor']),
+      primaryColor: json['primaryColor'] == null
+          ? AppColors.primary
+          : colorFromJson(json['primaryColor']),
       address: json['address'],
+      isDarkTheme: json['isDarkTheme'] ?? false,
+      numberPhone: json['phoneNumber'],
       categories: categoriesJson.map((value) {
         return _categoryFromMap(Map<String, dynamic>.from(value as Map));
       }).toList(),
