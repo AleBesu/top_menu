@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:top_menu/UI/screens/tabs/preview_tab_widgets/cards_menu_view.dart';
+import 'package:top_menu/UI/screens/tabs/preview_tab_widgets/classic_menu_view.dart';
+import 'package:top_menu/UI/screens/tabs/preview_tab_widgets/grid_menu_view.dart';
+import 'package:top_menu/UI/screens/tabs/preview_tab_widgets/list_menu_view.dart';
 import 'package:top_menu/app/app_colors.dart';
+import 'package:top_menu/core/enum/menu_layout_mode.dart';
+import 'package:top_menu/core/models/menu_category.dart';
 
 import '../../../app/theme.dart';
 import '../../providers/restaurant_provider.dart';
 import '../../providers/ui_providers.dart';
-import '../../widgets/menu_products_widgets/menu_view_builder.dart';
+
 import '../../widgets/net_image.dart';
 import '../../widgets/section_header.dart';
 import '../../widgets/view_mode_selector.dart';
@@ -134,7 +140,7 @@ class PreviewTab extends ConsumerWidget {
                 ),
               ),
               const SizedBox(height: 24),
-              MenuViewBuilder(
+              _MenuViewBuilder(
                 mode: menuViewConfigPro.menuLayoutMode,
                 categories: menuConfigPro.categories,
               ),
@@ -144,5 +150,34 @@ class PreviewTab extends ConsumerWidget {
         ),
       ),
     );
+  }
+}
+
+class _MenuViewBuilder extends StatelessWidget {
+  const _MenuViewBuilder({required this.mode, required this.categories});
+  final MenuLayoutMode mode;
+  final List<MenuCategory> categories;
+
+  @override
+  Widget build(BuildContext context) {
+    final visible = categories.where((c) => c.products.isNotEmpty).toList();
+    if (visible.isEmpty) {
+      return const Padding(
+        padding: EdgeInsets.symmetric(vertical: 40),
+        child: Center(
+          child: Text(
+            'Añade platos en la pestaña Carta para verlos aquí.',
+            textAlign: TextAlign.center,
+            style: TextStyle(color: AppColors.muted),
+          ),
+        ),
+      );
+    }
+    return switch (mode) {
+      MenuLayoutMode.list => ListMenuView(categories: visible),
+      MenuLayoutMode.grid => GridMenuView(categories: visible),
+      MenuLayoutMode.cards => CardsMenuView(categories: visible),
+      MenuLayoutMode.classic => ClassicMenuView(categories: visible),
+    };
   }
 }

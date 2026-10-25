@@ -16,9 +16,9 @@ class ServerScreen extends StatelessWidget {
     const primaryColor = Color(0xFF0A84FF);
 
     return Scaffold(
-      backgroundColor: backgroundColor,
+      // backgroundColor: backgroundColor,
       appBar: AppBar(
-        backgroundColor: backgroundColor,
+        // backgroundColor: backgroundColor,
         foregroundColor: Colors.white,
         elevation: 0,
         title: const Text(

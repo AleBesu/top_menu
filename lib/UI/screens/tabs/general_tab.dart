@@ -118,6 +118,9 @@ class GeneralTab extends ConsumerWidget {
                     width: double.maxFinite,
                     height: double.maxFinite,
                     decoration: BoxDecoration(
+                      border: isCurrentColor
+                          ? Border.all(color: Colors.white, width: 2)
+                          : null,
                       shape: BoxShape.circle,
                       color: color,
                     ),
@@ -131,11 +134,12 @@ class GeneralTab extends ConsumerWidget {
                   menuConfigNotifier.setPrimaryColor(color);
                 },
                 availableColors: [
-                  Colors.blue,
+                  menuConfigPro.primaryColor,
                   Colors.amberAccent,
                   Colors.green,
                   Colors.red,
                   Colors.pink,
+                  // Colors.black,
                 ],
               ),
             ),

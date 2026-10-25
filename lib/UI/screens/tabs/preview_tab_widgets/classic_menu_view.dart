@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:top_menu/UI/providers/restaurant_provider.dart';
 
-import '../../../app/app_colors.dart';
-import '../../../app/theme.dart';
-import '../../../core/utils.dart';
-import '../../../core/models/menu_category.dart';
+import '../../../../app/app_colors.dart';
+import '../../../../app/theme.dart';
+import '../../../../core/utils.dart';
+import '../../../../core/models/menu_category.dart';
 
 /// Carta tipográfica sin imágenes: nombre ······ precio.
 class ClassicMenuView extends ConsumerWidget {

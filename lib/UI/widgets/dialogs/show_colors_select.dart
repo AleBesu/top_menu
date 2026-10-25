@@ -162,6 +162,8 @@ Future<Color?> showColorPicker(BuildContext context) async {
                         AppColors.blueGrey300,
                         AppColors.blueGrey500,
                         AppColors.blueGrey700,
+                        AppColors.black,
+                        AppColors.white,
                       ],
                     ),
                   ),

@@ -12,16 +12,16 @@ void main() async {
   runApp(const ProviderScope(child: MenuAdminApp()));
 }
 
-class MenuAdminApp extends StatelessWidget {
+class MenuAdminApp extends ConsumerWidget {
   const MenuAdminApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return SafeArea(
       child: MaterialApp(
         title: 'TopMenu',
         debugShowCheckedModeBanner: false,
-        theme: buildTheme(),
+        theme: buildTheme(ref),
         home: AdmiMenuScreen(),
       ),
     );

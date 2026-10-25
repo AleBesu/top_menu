@@ -33,7 +33,7 @@ class _ProductSheet extends ConsumerStatefulWidget {
 }
 
 class _ProductSheetState extends ConsumerState<_ProductSheet> {
-  String? _imagePath;
+  late String? _imagePath = widget.product?.imagePath;
   late final _name = TextEditingController(text: widget.product?.name ?? '');
   late final _desc = TextEditingController(
     text: widget.product?.description ?? '',

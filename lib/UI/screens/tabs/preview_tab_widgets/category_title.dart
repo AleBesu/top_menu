@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:top_menu/UI/providers/restaurant_provider.dart';
 
-import '../../../app/app_colors.dart';
+import '../../../../app/app_colors.dart';
 
 class CategoryTitle extends ConsumerWidget {
   const CategoryTitle(this.name, {super.key});
