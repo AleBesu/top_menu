@@ -152,7 +152,7 @@ class _ProductSheetState extends ConsumerState<_ProductSheet> {
             ),
             const SizedBox(height: 16),
             AppField(
-              label: 'Precio (€)',
+              label: 'Precio (\$)',
               controller: _price,
               hint: '0.00',
               keyboardType: const TextInputType.numberWithOptions(

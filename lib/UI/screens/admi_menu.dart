@@ -36,7 +36,7 @@ class _HomeScreenState extends ConsumerState<AdmiMenuScreen> {
   @override
   Widget build(BuildContext context) {
     final tab = ref.watch(tabProvider);
-    final name = ref.watch(restaurantConfigProvider.select((c) => c.name));
+    final name = ref.watch(menuConfigProvider.select((c) => c.name));
 
     return Scaffold(
       body: SafeArea(

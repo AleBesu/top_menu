@@ -25,7 +25,7 @@ class _MenuViewConfigNotifier extends Notifier<_MenuViewConfig> {
   _MenuViewConfig build() {
     return _MenuViewConfig(
       menuLayoutMode: MenuLayoutMode.list,
-      schemeColor: AppColors.primary,
+      schemeColor: AppColors.red700,
       isDarkTheme: true,
     );
   }

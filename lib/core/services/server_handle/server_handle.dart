@@ -102,7 +102,7 @@ abstract class ServerHandle {
   static Future<Handler> startApiServer({required WidgetRef ref}) async {
     r.Router router = r.Router();
 
-    final restauranteConfigPro = ref.read(restaurantConfigProvider);
+    final restauranteConfigPro = ref.read(menuConfigProvider);
     // final viewModePro = ref.read(viewModeProvider).name;
 
     String? bannerUrl = restauranteConfigPro.bannerPath == null

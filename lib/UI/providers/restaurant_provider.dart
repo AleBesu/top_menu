@@ -1,8 +1,10 @@
 import 'dart:async';
+import 'dart:ui';
 
 import 'package:archive/archive_io.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:top_menu/app/app_colors.dart';
 import 'package:top_menu/core/datasourses/hive_restaurant_local_data_source.dart';
 import 'package:top_menu/core/models/menu_category.dart';
 import 'package:top_menu/core/models/product.dart';
@@ -14,7 +16,7 @@ import 'package:top_menu/core/utils.dart';
 
 // ── Inyección de dependencias
 
-final restaurantConfigProvider =
+final menuConfigProvider =
     NotifierProvider<RestaurantNotifier, RestaurantConfig>(
       RestaurantNotifier.new,
     );
@@ -48,6 +50,10 @@ class RestaurantNotifier extends Notifier<RestaurantConfig> {
       openTime: '08:00',
       closeTime: '22:00',
       categories: [],
+      address: null,
+      isDarkTheme: true,
+      numberPhone: null,
+      primaryColor: AppColors.primary,
     );
   }
 
@@ -96,6 +102,11 @@ class RestaurantNotifier extends Notifier<RestaurantConfig> {
 
   void setCloseTime(String value) {
     state = state.copyWith(closeTime: value);
+    _persist();
+  }
+
+  void setPrimaryColor(Color value) {
+    state = state.copyWith(primaryColor: value);
     _persist();
   }
 

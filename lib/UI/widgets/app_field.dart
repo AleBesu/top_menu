@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../../app/app_colors.dart';
 
-class FieldLabel extends StatelessWidget {
-  const FieldLabel(this.text, {super.key});
+class FieldTitle extends StatelessWidget {
+  const FieldTitle(this.text, {super.key});
   final String text;
 
   @override
@@ -50,7 +50,7 @@ class AppField extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        FieldLabel(label),
+        FieldTitle(label),
         const SizedBox(height: 6),
         TextFormField(
           controller: controller,
@@ -113,7 +113,7 @@ class TimeField extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        FieldLabel(label),
+        FieldTitle(label),
         const SizedBox(height: 6),
         Material(
           color: AppColors.surface2,

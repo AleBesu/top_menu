@@ -6,8 +6,8 @@ final _rnd = Random();
 String uid() =>
     List.generate(7, (_) => _chars[_rnd.nextInt(_chars.length)]).join();
 
-/// "12" -> "12.00 €"
+/// "12" -> "12.00 \$"
 String formatPrice(String raw) {
   final v = double.tryParse(raw.replaceAll(',', '.'));
-  return v == null ? '$raw €' : '${v.toStringAsFixed(2)} €';
+  return v == null ? '$raw \$' : '${v.toStringAsFixed(2)} \$';
 }

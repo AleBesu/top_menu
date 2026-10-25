@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:top_menu/UI/providers/restaurant_provider.dart';
 
 import '../../../app/app_colors.dart';
 import '../../../core/utils.dart';
@@ -34,19 +36,21 @@ class GridMenuView extends StatelessWidget {
   }
 }
 
-class _Tile extends StatelessWidget {
+class _Tile extends ConsumerWidget {
   const _Tile({required this.product});
   final Product product;
 
   @override
-  Widget build(BuildContext context) {
-    return Container(
+  Widget build(BuildContext context, WidgetRef ref) {
+    final menuConfigPro = ref.watch(menuConfigProvider);
+    return Card(
       clipBehavior: Clip.antiAlias,
-      decoration: BoxDecoration(
-        color: AppColors.surface,
-        border: Border.all(color: AppColors.border),
-        borderRadius: BorderRadius.circular(14),
-      ),
+      // decoration: BoxDecoration(
+      //   color: AppColors.surface,
+      //   border: Border.all(color: AppColors.border),
+      //   borderRadius: BorderRadius.circular(14),
+      // ),
+
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -62,9 +66,10 @@ class _Tile extends StatelessWidget {
                     product.name,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w600,
+                      color: menuConfigPro.primaryColor.withOpacity(0.8),
                     ),
                   ),
                   const SizedBox(height: 2),
@@ -81,10 +86,10 @@ class _Tile extends StatelessWidget {
                   ),
                   Text(
                     formatPrice(product.price),
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w700,
-                      color: AppColors.primary,
+                      color: menuConfigPro.primaryColor,
                     ),
                   ),
                 ],

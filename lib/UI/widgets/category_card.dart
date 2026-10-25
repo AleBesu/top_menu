@@ -20,8 +20,7 @@ class _CategoryCardState extends ConsumerState<CategoryCard> {
   bool _editing = false;
   late final _ctrl = TextEditingController(text: widget.category.name);
 
-  RestaurantNotifier get _notifier =>
-      ref.read(restaurantConfigProvider.notifier);
+  RestaurantNotifier get _notifier => ref.read(menuConfigProvider.notifier);
 
   @override
   void dispose() {
@@ -192,7 +191,7 @@ class _CategoryCardState extends ConsumerState<CategoryCard> {
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       Text(
-                        '${p.price}€',
+                        '${p.price}\$',
                         style: const TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w700,

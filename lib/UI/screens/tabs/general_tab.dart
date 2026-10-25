@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:top_menu/UI/widgets/color_selector.dart';
+import 'package:top_menu/UI/widgets/dialogs/show_colors_select.dart';
 import 'package:top_menu/app/app_colors.dart';
 import 'package:top_menu/core/services/file_handle/file_handle.dart';
 
@@ -16,8 +17,8 @@ class GeneralTab extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final config = ref.watch(restaurantConfigProvider);
-    final notifier = ref.read(restaurantConfigProvider.notifier);
+    final menuConfigPro = ref.watch(menuConfigProvider);
+    final menuConfigNotifier = ref.read(menuConfigProvider.notifier);
 
     return ListView(
       padding: const EdgeInsets.all(20),
@@ -30,7 +31,7 @@ class GeneralTab extends ConsumerWidget {
             child: Stack(
               fit: StackFit.expand,
               children: [
-                FileImageWidget(config.bannerPath),
+                FileImageWidget(menuConfigPro.bannerPath),
                 const DecoratedBox(
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
@@ -44,7 +45,7 @@ class GeneralTab extends ConsumerWidget {
                   left: 14,
                   bottom: 12,
                   child: Text(
-                    config.name,
+                    menuConfigPro.name,
                     style: const TextStyle(
                       fontFamily: kSerif,
                       fontSize: 20,
@@ -63,8 +64,8 @@ class GeneralTab extends ConsumerWidget {
 
                       if (newImage != null) {
                         ref
-                            .read(restaurantConfigProvider.notifier)
-                            .setBanner(newImage!.file.path);
+                            .read(menuConfigProvider.notifier)
+                            .setBanner(newImage.file.path);
                       }
                     },
                     icon: const Icon(Icons.edit, color: Colors.white),
@@ -79,124 +80,86 @@ class GeneralTab extends ConsumerWidget {
         const SectionHeader('Información del local'),
         AppField(
           label: 'Nombre del local',
-          initialValue: config.name,
-          onChanged: notifier.setName,
+          initialValue: menuConfigPro.name,
+          onChanged: menuConfigNotifier.setName,
           hint: 'Nombre del restaurante',
         ),
-        const SizedBox(height: 14),
-        BlockPicker(
-          pickerColor: Colors.blue,
-          layoutBuilder: (context, colors, child) {
-            return GridView.builder(
-              physics: NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 5,
-                mainAxisSpacing: 16,
-                mainAxisExtent: 40,
+        const SizedBox(height: 16),
+
+        FieldTitle('Color de Marca'),
+        SizedBox(height: 10),
+        Row(
+          children: [
+            Expanded(
+              child: BlockPicker(
+                // useInShowDialog: true,
+                pickerColor: Colors.blue,
+                layoutBuilder: (context, colors, child) {
+                  return GridView.builder(
+                    physics: NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 5,
+                          crossAxisSpacing: 0,
+                          mainAxisSpacing: 16,
+                          mainAxisExtent: 40,
+                        ),
+                    itemCount: colors.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return Center(child: child(colors[index]));
+                    },
+                  );
+                },
+                itemBuilder: (color, isCurrentColor, changeColor) => Material(
+                  color: Colors.transparent,
+
+                  child: Container(
+                    width: double.maxFinite,
+                    height: double.maxFinite,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: color,
+                    ),
+                    child: InkWell(
+                      borderRadius: BorderRadius.circular(100),
+                      onTap: changeColor,
+                    ),
+                  ),
+                ),
+                onColorChanged: (color) {
+                  menuConfigNotifier.setPrimaryColor(color);
+                },
+                availableColors: [
+                  Colors.blue,
+                  Colors.amberAccent,
+                  Colors.green,
+                  Colors.red,
+                  Colors.pink,
+                ],
               ),
-              itemCount: colors.length,
-              itemBuilder: (BuildContext context, int index) {
-                return Center(child: child(colors[index]));
-              },
-            );
-          },
-          itemBuilder: (color, isCurrentColor, changeColor) => Container(
-            width: double.maxFinite,
-            height: double.maxFinite,
-            decoration: BoxDecoration(shape: BoxShape.circle, color: color),
-          ),
-          onColorChanged: (color) {},
-          availableColors: [
-            AppColors.red50,
-            AppColors.red100,
-            AppColors.red300,
-            AppColors.red500,
-            AppColors.red700,
-
-            // Rosado
-            AppColors.pink50,
-            AppColors.pink100,
-            AppColors.pink300,
-            AppColors.pink500,
-            AppColors.pink700,
-
-            // Amarillo
-            AppColors.yellow50,
-            AppColors.yellow100,
-            AppColors.yellow300,
-            AppColors.yellow500,
-            AppColors.yellow700,
-
-            // Naranja
-            AppColors.orange50,
-            AppColors.orange100,
-            AppColors.orange300,
-            AppColors.orange500,
-            AppColors.orange700,
-
-            // Azul
-            AppColors.blue50,
-            AppColors.blue100,
-            AppColors.blue300,
-            AppColors.blue500,
-            AppColors.blue700,
-
-            // Índigo
-            AppColors.indigo50,
-            AppColors.indigo100,
-            AppColors.indigo300,
-            AppColors.indigo500,
-            AppColors.indigo700,
-
-            // Morado
-            AppColors.purple50,
-            AppColors.purple100,
-            AppColors.purple300,
-            AppColors.purple500,
-            AppColors.purple700,
-
-            // Verde
-            AppColors.green50,
-            AppColors.green100,
-            AppColors.green300,
-            AppColors.green500,
-            AppColors.green700,
-
-            // Teal
-            AppColors.teal50,
-            AppColors.teal100,
-            AppColors.teal300,
-            AppColors.teal500,
-            AppColors.teal700,
-
-            // Cian
-            AppColors.cyan50,
-            AppColors.cyan100,
-            AppColors.cyan300,
-            AppColors.cyan500,
-            AppColors.cyan700,
-
-            // Marrón
-            AppColors.brown50,
-            AppColors.brown100,
-            AppColors.brown300,
-            AppColors.brown500,
-            AppColors.brown700,
-
-            // Gris
-            AppColors.grey50,
-            AppColors.grey100,
-            AppColors.grey300,
-            AppColors.grey500,
-            AppColors.grey700,
-
-            // Azul grisáceo
-            AppColors.blueGrey50,
-            AppColors.blueGrey100,
-            AppColors.blueGrey300,
-            AppColors.blueGrey500,
-            AppColors.blueGrey700,
+            ),
+            SizedBox(width: 8),
+            Material(
+              color: Colors.transparent,
+              child: InkWell(
+                onTap: () async {
+                  final pickedColor = await showColorPicker(context);
+                  if (pickedColor != null) {
+                    menuConfigNotifier.setPrimaryColor(pickedColor);
+                  }
+                },
+                child: Container(
+                  width: 40,
+                  height: 40,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Colors.white54,
+                  ),
+                  child: Icon(Icons.add),
+                ),
+              ),
+            ),
           ],
         ),
 

@@ -54,6 +54,10 @@ class HiveRestaurantLocalDataSource implements RestaurantLocalDataSource {
       'banner': config.bannerPath,
       'openTime': config.openTime,
       'closeTime': config.closeTime,
+      'primaryColor': config.primaryColor.toJson(),
+      'isDarkTheme': config.isDarkTheme,
+      'numberPhone': config.numberPhone,
+      'address': config.address,
       'categories': config.categories.map(_categoryToMap).toList(),
     };
   }

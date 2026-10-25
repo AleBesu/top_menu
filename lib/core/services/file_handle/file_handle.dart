@@ -13,7 +13,11 @@ abstract class FilesManagerService {
     bool cropImage = true,
   }) async {
     final imagePicker = ImagePicker();
-    XFile? image = await imagePicker.pickImage(source: source);
+    XFile? image = await imagePicker.pickImage(
+      source: source,
+      maxHeight: 720,
+      maxWidth: 1280,
+    );
 
     if (image != null) {
       if (cropImage) {

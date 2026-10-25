@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:top_menu/UI/providers/restaurant_provider.dart';
 
 import '../../../app/app_colors.dart';
 import '../../../core/utils.dart';
@@ -6,12 +8,14 @@ import '../../../core/models/menu_category.dart';
 import '../net_image.dart';
 import 'category_title.dart';
 
-class ListMenuView extends StatelessWidget {
+class ListMenuView extends ConsumerWidget {
   const ListMenuView({super.key, required this.categories});
   final List<MenuCategory> categories;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final menuConfigPro = ref.watch(menuConfigProvider);
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -38,9 +42,10 @@ class ListMenuView extends StatelessWidget {
                       children: [
                         Text(
                           p.name,
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 15,
                             fontWeight: FontWeight.w600,
+                            color: menuConfigPro.primaryColor,
                           ),
                         ),
                         if (p.description.isNotEmpty) ...[
@@ -49,9 +54,13 @@ class ListMenuView extends StatelessWidget {
                             p.description,
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontSize: 12,
                               color: AppColors.muted,
+
+                              // color: menuConfigPro.primaryColor.withOpacity(
+                              //   0.7,
+                              // ),
                             ),
                           ),
                         ],
@@ -61,10 +70,10 @@ class ListMenuView extends StatelessWidget {
                   const SizedBox(width: 12),
                   Text(
                     formatPrice(p.price),
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w700,
-                      color: AppColors.primary,
+                      color: menuConfigPro.primaryColor,
                     ),
                   ),
                 ],
