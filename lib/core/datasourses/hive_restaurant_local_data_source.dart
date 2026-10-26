@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:hive_ce_flutter/hive_ce_flutter.dart';
 import 'package:top_menu/app/app_colors.dart';
+import 'package:top_menu/core/enum/menu_layout_mode.dart';
 import 'package:top_menu/core/extensions/color.dart';
 import 'package:top_menu/core/models/menu_category.dart';
 import 'package:top_menu/core/models/product.dart';
@@ -58,6 +59,7 @@ class HiveRestaurantLocalDataSource implements RestaurantLocalDataSource {
       'isDarkTheme': config.isDarkTheme,
       'numberPhone': config.numberPhone,
       'address': config.address,
+      'menuLayoutMode': config.menuLayoutMode.name,
       'categories': config.categories.map(_categoryToMap).toList(),
     };
   }
@@ -76,6 +78,11 @@ class HiveRestaurantLocalDataSource implements RestaurantLocalDataSource {
       address: json['address'],
       isDarkTheme: json['isDarkTheme'] ?? false,
       numberPhone: json['phoneNumber'],
+      menuLayoutMode: json['menuLayoutMode'] != null
+          ? MenuLayoutMode.values.firstWhere(
+              (e) => e.name == json['menuLayoutMode'],
+            )
+          : MenuLayoutMode.list,
       categories: categoriesJson.map((value) {
         return _categoryFromMap(Map<String, dynamic>.from(value as Map));
       }).toList(),

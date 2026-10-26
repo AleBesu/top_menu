@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:top_menu/app/app_colors.dart';
+import 'package:top_menu/core/enum/menu_layout_mode.dart';
 
 import 'menu_category.dart';
 
@@ -14,7 +15,7 @@ class RestaurantConfig {
   final bool isDarkTheme;
   final Color primaryColor;
   final List<MenuCategory> categories;
-
+  final MenuLayoutMode menuLayoutMode;
   const RestaurantConfig({
     required this.name,
     this.bannerPath,
@@ -25,6 +26,7 @@ class RestaurantConfig {
     this.numberPhone,
     this.isDarkTheme = false,
     this.primaryColor = AppColors.primary,
+    this.menuLayoutMode = MenuLayoutMode.list,
   });
 
   RestaurantConfig copyWith({
@@ -40,6 +42,7 @@ class RestaurantConfig {
     bool? isDarkTheme,
     Color? primaryColor,
     List<MenuCategory>? categories,
+    MenuLayoutMode? menuLayoutMode,
   }) => RestaurantConfig(
     name: name ?? this.name,
     bannerPath: clearBanner ? null : bannerPath ?? this.bannerPath,
@@ -50,5 +53,6 @@ class RestaurantConfig {
     isDarkTheme: isDarkTheme ?? this.isDarkTheme,
     primaryColor: primaryColor ?? this.primaryColor,
     categories: categories ?? this.categories,
+    menuLayoutMode: menuLayoutMode ?? this.menuLayoutMode,
   );
 }

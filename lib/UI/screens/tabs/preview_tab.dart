@@ -69,7 +69,7 @@ class _PreviewTabState extends ConsumerState<PreviewTab> {
 
   Widget _buildPreviewScreen(WidgetRef ref) {
     final menuConfigPro = ref.watch(menuConfigProvider);
-    final menuViewConfigPro = ref.watch(menuViewConfigProvider);
+    // final menuViewConfigPro = ref.watch(menuViewConfigProvider);
 
     return Theme(
       data: ThemeData(
@@ -84,10 +84,15 @@ class _PreviewTabState extends ConsumerState<PreviewTab> {
               : Brightness.light,
         ),
 
-        scaffoldBackgroundColor: Color.alphaBlend(
-          menuConfigPro.primaryColor.withOpacity(0.25),
-          menuConfigPro.isDarkTheme ? Colors.black26 : Colors.white,
-        ),
+        scaffoldBackgroundColor: menuConfigPro.isDarkTheme
+            ? Color.alphaBlend(
+                menuConfigPro.primaryColor.withOpacity(0.07),
+                Colors.black,
+              )
+            : Color.alphaBlend(
+                menuConfigPro.primaryColor.withOpacity(0.25),
+                Colors.white,
+              ),
       ),
       child: Scaffold(
         appBar: AppBar(title: Text('Vista Previa')),
@@ -167,9 +172,12 @@ class _PreviewTabState extends ConsumerState<PreviewTab> {
               ),
 
               const SizedBox(height: 12),
-              _MenuViewBuilder(
-                mode: menuViewConfigPro.menuLayoutMode,
-                categories: menuConfigPro.categories,
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 4),
+                child: _MenuViewBuilder(
+                  mode: menuConfigPro.menuLayoutMode,
+                  categories: menuConfigPro.categories,
+                ),
               ),
               const SizedBox(height: 12),
             ],

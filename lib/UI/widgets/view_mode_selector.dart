@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:top_menu/UI/providers/restaurant_provider.dart';
 
 import '../../app/app_colors.dart';
 import '../../core/enum/menu_layout_mode.dart';
@@ -10,7 +11,7 @@ class ViewModeSelector extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final current = ref.watch(menuViewConfigProvider);
+    final menuLayoutMode = ref.watch(menuConfigProvider).menuLayoutMode;
     return Row(
       children: [
         for (final m in MenuLayoutMode.values)
@@ -20,17 +21,22 @@ class ViewModeSelector extends ConsumerWidget {
                 right: m == MenuLayoutMode.values.last ? 0 : 8,
               ),
               child: Material(
-                color: m == current ? AppColors.redSoft : AppColors.surface,
+                color: m == menuLayoutMode
+                    ? AppColors.redSoft
+                    : AppColors.surface,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12),
                   side: BorderSide(
-                    color: m == current ? AppColors.primary : AppColors.border,
+                    color: m == menuLayoutMode
+                        ? AppColors.primary
+                        : AppColors.border,
                   ),
                 ),
                 child: InkWell(
                   borderRadius: BorderRadius.circular(12),
-                  onTap: () =>
-                      ref.read(menuViewConfigProvider.notifier).select(m),
+                  onTap: () => ref
+                      .read(menuConfigProvider.notifier)
+                      .setMenuLayoutMode(m),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(vertical: 12),
                     child: Column(
@@ -38,7 +44,7 @@ class ViewModeSelector extends ConsumerWidget {
                         Icon(
                           m.icon,
                           size: 22,
-                          color: m == current
+                          color: m == menuLayoutMode
                               ? AppColors.primary
                               : AppColors.muted,
                         ),
@@ -48,7 +54,7 @@ class ViewModeSelector extends ConsumerWidget {
                           style: TextStyle(
                             fontSize: 11,
                             fontWeight: FontWeight.w600,
-                            color: m == current
+                            color: m == menuLayoutMode
                                 ? AppColors.primary
                                 : AppColors.muted,
                           ),

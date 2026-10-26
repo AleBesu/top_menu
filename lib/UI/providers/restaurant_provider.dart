@@ -6,6 +6,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:top_menu/app/app_colors.dart';
 import 'package:top_menu/core/datasourses/hive_restaurant_local_data_source.dart';
+import 'package:top_menu/core/enum/menu_layout_mode.dart';
 import 'package:top_menu/core/models/menu_category.dart';
 import 'package:top_menu/core/models/product.dart';
 import 'package:top_menu/core/models/restaurant_config.dart';
@@ -122,6 +123,11 @@ class RestaurantNotifier extends Notifier<RestaurantConfig> {
 
   void setNumberPhone(String? value) {
     state = state.copyWith(address: value);
+    _persist();
+  }
+
+  void setMenuLayoutMode(MenuLayoutMode? value) {
+    state = state.copyWith(menuLayoutMode: value);
     _persist();
   }
 

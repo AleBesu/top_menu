@@ -249,10 +249,12 @@ class GeneralTab extends ConsumerWidget {
                 },
                 availableColors: [
                   menuConfigPro.primaryColor,
-                  Colors.amberAccent,
-                  Colors.green,
+
                   Colors.red,
-                  Colors.pink,
+                  Colors.green,
+
+                  Colors.blue,
+                  Colors.white,
                   // Colors.black,
                 ],
               ),
