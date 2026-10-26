@@ -83,6 +83,9 @@ class AppField extends StatelessWidget {
 }
 
 class TimeField extends StatelessWidget {
+  final String label;
+  final String? value;
+  final ValueChanged<String> onChanged;
   const TimeField({
     super.key,
     required this.label,
@@ -90,12 +93,8 @@ class TimeField extends StatelessWidget {
     required this.onChanged,
   });
 
-  final String label;
-  final String value;
-  final ValueChanged<String> onChanged;
-
   Future<void> _pick(BuildContext context) async {
-    final parts = value.split(':');
+    final parts = value!.split(':');
     final initial = TimeOfDay(
       hour: int.tryParse(parts.first) ?? 12,
       minute: parts.length > 1 ? int.tryParse(parts[1]) ?? 0 : 0,
@@ -129,7 +128,10 @@ class TimeField extends StatelessWidget {
               child: Row(
                 children: [
                   Expanded(
-                    child: Text(value, style: const TextStyle(fontSize: 14)),
+                    child: Text(
+                      value ?? '12:00',
+                      style: const TextStyle(fontSize: 14),
+                    ),
                   ),
                   const Icon(Icons.schedule, size: 16, color: AppColors.muted),
                 ],

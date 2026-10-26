@@ -5,7 +5,7 @@ import 'package:top_menu/app/app_colors.dart';
 import 'menu_category.dart';
 
 class RestaurantConfig {
-  final String name;
+  final String? name;
   final String? bannerPath;
   final String? openTime; // HH:mm
   final String? closeTime; // HH:mm

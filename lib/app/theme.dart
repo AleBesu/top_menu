@@ -15,6 +15,14 @@ ThemeData buildTheme(WidgetRef ref) {
       primary: AppColors.primary,
       surface: AppColors.surface,
     ),
+    outlinedButtonTheme: OutlinedButtonThemeData(
+      style: ButtonStyle(
+        side: WidgetStatePropertyAll(BorderSide(color: AppColors.primary)),
+      ),
+    ),
+    filledButtonTheme: FilledButtonThemeData(
+      style: ButtonStyle(foregroundColor: WidgetStatePropertyAll(Colors.white)),
+    ),
     textTheme: base.textTheme.apply(
       bodyColor: AppColors.text,
       displayColor: AppColors.text,

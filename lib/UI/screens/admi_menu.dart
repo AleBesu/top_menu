@@ -64,16 +64,17 @@ class _HomeScreenState extends ConsumerState<AdmiMenuScreen> {
                               ),
                             ),
                             const SizedBox(height: 4),
-                            Text(
-                              name,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: const TextStyle(
-                                fontFamily: kSerif,
-                                fontSize: 26,
-                                letterSpacing: -0.3,
+                            if (name != null)
+                              Text(
+                                name,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: const TextStyle(
+                                  fontFamily: kSerif,
+                                  fontSize: 26,
+                                  letterSpacing: -0.3,
+                                ),
                               ),
-                            ),
                           ],
                         ),
                       ),

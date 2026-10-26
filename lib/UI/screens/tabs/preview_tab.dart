@@ -1,3 +1,4 @@
+import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:top_menu/UI/screens/tabs/preview_tab_widgets/cards_menu_view.dart';
@@ -16,11 +17,16 @@ import '../../widgets/net_image.dart';
 import '../../widgets/section_header.dart';
 import '../../widgets/view_mode_selector.dart';
 
-class PreviewTab extends ConsumerWidget {
+class PreviewTab extends ConsumerStatefulWidget {
   const PreviewTab({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<PreviewTab> createState() => _PreviewTabState();
+}
+
+class _PreviewTabState extends ConsumerState<PreviewTab> {
+  @override
+  Widget build(BuildContext context) {
     final config = ref.watch(menuConfigProvider);
     return ListView(
       padding: const EdgeInsets.all(20),
@@ -91,55 +97,76 @@ class PreviewTab extends ConsumerWidget {
             children: [
               ClipRRect(
                 borderRadius: BorderRadius.circular(12),
-                child: SizedBox(
-                  height: 150,
-                  child: Stack(
-                    fit: StackFit.expand,
-                    children: [
-                      FileImageWidget(menuConfigPro.bannerPath),
-                      const DecoratedBox(
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            begin: Alignment.bottomCenter,
-                            end: Alignment.topCenter,
-                            colors: [Color(0xCC000000), Colors.transparent],
-                            stops: [0, 0.8],
+                child: Stack(
+                  fit: StackFit.loose,
+                  children: [
+                    if (menuConfigPro.bannerPath != null) ...[
+                      SizedBox(
+                        height: 170,
+                        child: FileImageWidget(menuConfigPro.bannerPath),
+                      ),
+
+                      if ((menuConfigPro.name != null &&
+                              menuConfigPro.name!.isNotEmpty) ||
+                          menuConfigPro.openTime != null &&
+                              menuConfigPro.openTime!.isNotEmpty)
+                        Positioned.fill(
+                          child: const DecoratedBox(
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                begin: Alignment.bottomCenter,
+                                end: Alignment.topCenter,
+                                colors: [Color(0xCC000000), Colors.transparent],
+                                stops: [0, 0.8],
+                              ),
+                            ),
+                          ),
+                        ),
+
+                      Positioned(
+                        bottom: 14,
+                        left: 14,
+                        child: SizedBox(
+                          width:
+                              MediaQuery.of(context).size.width -
+                              24, //24 is the value of de padding (12 + 12)
+                          child: _buildMainInfoWidget(
+                            name: menuConfigPro.name,
+                            closeTime: menuConfigPro.closeTime,
+                            openTime: menuConfigPro.openTime,
+                            crossAxisAlignment: CrossAxisAlignment.start,
                           ),
                         ),
                       ),
-                      Positioned(
-                        left: 16,
-                        right: 16,
-                        bottom: 14,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              menuConfigPro.name,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: const TextStyle(
-                                fontFamily: kSerif,
-                                fontSize: 24,
-                                color: Colors.white,
+                    ] else
+                      Card(
+                        child: SizedBox(
+                          height: 140,
+                          child: Center(
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                vertical: 30,
+                                horizontal: 40,
+                              ),
+                              child: SizedBox(
+                                width: MediaQuery.of(context).size.width - 24, //24 is the value of de padding (12 + 12)
+
+                                child: _buildMainInfoWidget(
+                                  name: menuConfigPro.name,
+                                  closeTime: menuConfigPro.closeTime,
+                                  openTime: menuConfigPro.openTime,
+                                  textColor: menuConfigPro.primaryColor,
+                                ),
                               ),
                             ),
-                            const SizedBox(height: 2),
-                            Text(
-                              'Abierto de ${menuConfigPro.openTime} a ${menuConfigPro.closeTime}',
-                              style: const TextStyle(
-                                fontSize: 12,
-                                color: Color(0xCCFFFFFF),
-                              ),
-                            ),
-                          ],
+                          ),
                         ),
                       ),
-                    ],
-                  ),
+                  ],
                 ),
               ),
-              const SizedBox(height: 24),
+
+              const SizedBox(height: 12),
               _MenuViewBuilder(
                 mode: menuViewConfigPro.menuLayoutMode,
                 categories: menuConfigPro.categories,
@@ -149,6 +176,40 @@ class PreviewTab extends ConsumerWidget {
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildMainInfoWidget({
+    String? name,
+    String? openTime,
+    String? closeTime,
+    Color textColor = Colors.white,
+    CrossAxisAlignment crossAxisAlignment = CrossAxisAlignment.center,
+  }) {
+    //horario
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: crossAxisAlignment,
+      children: [
+        if (name != null && name.isNotEmpty)
+          Text(
+            name,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+
+            style: TextStyle(
+              fontFamily: kSerif,
+              fontSize: 23,
+              height: 1,
+              color: textColor,
+            ),
+          ),
+        const SizedBox(height: 6),
+        Text(
+          'Abierto de $openTime a $closeTime',
+          style: TextStyle(fontSize: 11, color: AppColors.muted),
+        ),
+      ],
     );
   }
 }

@@ -6,9 +6,9 @@ import '../../app/app_colors.dart';
 
 /// Imagen de red que rellena su contenedor, con placeholder si falla o está vacía.
 class FileImageWidget extends StatelessWidget {
-  const FileImageWidget(this.path, {super.key, this.fit = BoxFit.cover});
   final String? path;
   final BoxFit fit;
+  const FileImageWidget(this.path, {super.key, this.fit = BoxFit.cover});
 
   Widget get _placeholder => Container(
     color: AppColors.surface2,

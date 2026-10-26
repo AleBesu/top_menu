@@ -90,8 +90,8 @@ class RestaurantNotifier extends Notifier<RestaurantConfig> {
     _persist();
   }
 
-  void setBanner(String value) {
-    state = state.copyWith(bannerPath: value);
+  void setBanner(String? value, [bool clearBanner = false]) {
+    state = state.copyWith(bannerPath: value, clearBanner: clearBanner);
     _persist();
   }
 
@@ -107,6 +107,21 @@ class RestaurantNotifier extends Notifier<RestaurantConfig> {
 
   void setPrimaryColor(Color value) {
     state = state.copyWith(primaryColor: value);
+    _persist();
+  }
+
+  void setIsDarkTheme(bool value) {
+    state = state.copyWith(isDarkTheme: value);
+    _persist();
+  }
+
+  void setAddress(String? value) {
+    state = state.copyWith(address: value);
+    _persist();
+  }
+
+  void setNumberPhone(String? value) {
+    state = state.copyWith(address: value);
     _persist();
   }
 
