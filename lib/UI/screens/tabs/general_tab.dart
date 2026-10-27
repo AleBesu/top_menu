@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:top_menu/UI/widgets/color_selector.dart';
 import 'package:top_menu/UI/widgets/dialogs/show_colors_select.dart';
 import 'package:top_menu/UI/widgets/dialogs/show_question_dialog.dart';
@@ -10,7 +11,7 @@ import 'package:top_menu/core/services/file_handle/file_handle.dart';
 import '../../../app/theme.dart';
 import '../../providers/restaurant_provider.dart';
 import '../../widgets/app_field.dart';
-import '../../widgets/net_image.dart';
+import '../../widgets/file_image_widget.dart';
 import '../../widgets/section_header.dart';
 
 class GeneralTab extends ConsumerWidget {
@@ -71,6 +72,10 @@ class GeneralTab extends ConsumerWidget {
                           final newImage =
                               await FilesManagerService.pickerImage(
                                 copyToAppDirectory: true,
+                                aspectRatio: CropAspectRatio(
+                                  ratioX: 16,
+                                  ratioY: 9,
+                                ),
                               );
 
                           if (newImage != null) {

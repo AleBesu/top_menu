@@ -11,6 +11,7 @@ abstract class FilesManagerService {
     ImageSource source = ImageSource.gallery,
     bool copyToAppDirectory = true,
     bool cropImage = true,
+    CropAspectRatio? aspectRatio,
   }) async {
     final imagePicker = ImagePicker();
     XFile? image = await imagePicker.pickImage(
@@ -24,6 +25,7 @@ abstract class FilesManagerService {
         //crop image
         final imageCropped = await ImageCropper().cropImage(
           sourcePath: image.path,
+          aspectRatio: aspectRatio,
         );
         //if croped image != null then set new value to "image"
         if (imageCropped != null) {

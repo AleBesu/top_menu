@@ -13,7 +13,7 @@ import '../../../app/theme.dart';
 import '../../providers/restaurant_provider.dart';
 import '../../providers/ui_providers.dart';
 
-import '../../widgets/net_image.dart';
+import '../../widgets/file_image_widget.dart';
 import '../../widgets/section_header.dart';
 import '../../widgets/view_mode_selector.dart';
 

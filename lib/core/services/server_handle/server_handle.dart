@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:network_info_plus/network_info_plus.dart';
 import 'package:path/path.dart';
@@ -14,6 +15,7 @@ import 'package:shelf_static/shelf_static.dart';
 import 'package:top_menu/UI/providers/restaurant_provider.dart';
 import 'package:top_menu/UI/providers/ui_providers.dart';
 import 'package:top_menu/core/const/app_local_images_path.dart';
+import 'package:top_menu/core/extensions/color.dart';
 
 abstract class ServerHandle {
   //==========================SERVER HANDLE==========================
@@ -116,6 +118,11 @@ abstract class ServerHandle {
           "bannerUrl": bannerUrl,
           "openTime": restauranteConfigPro.openTime,
           "closeTime": restauranteConfigPro.closeTime,
+          'address': restauranteConfigPro.address,
+          'isDarkTheme': restauranteConfigPro.isDarkTheme,
+          'numberPhone': restauranteConfigPro.numberPhone,
+          'primaryColor': restauranteConfigPro.primaryColor.toJson(),
+          'menuLayoutMode': restauranteConfigPro.menuLayoutMode.name,
         }),
       );
     });
@@ -151,7 +158,7 @@ abstract class ServerHandle {
 
       final imageFileName = imagePath.split('/').last;
 
-      return 'http://$ip:8080/images/$imageFileName';
+      return '${ip}:8080/images/$imageFileName';
     } catch (e) {
       rethrow;
     }

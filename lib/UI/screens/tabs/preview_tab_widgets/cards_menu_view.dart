@@ -6,7 +6,7 @@ import '../../../../app/app_colors.dart';
 import '../../../../app/theme.dart';
 import '../../../../core/utils.dart';
 import '../../../../core/models/menu_category.dart';
-import '../../../widgets/net_image.dart';
+import '../../../widgets/file_image_widget.dart';
 import 'category_title.dart';
 
 class CardsMenuView extends ConsumerWidget {

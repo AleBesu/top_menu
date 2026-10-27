@@ -50,11 +50,13 @@ class RestaurantNotifier extends Notifier<RestaurantConfig> {
       bannerPath: null,
       openTime: '08:00',
       closeTime: '22:00',
-      categories: [],
+
       address: null,
       isDarkTheme: true,
       numberPhone: null,
       primaryColor: AppColors.primary,
+      menuLayoutMode: MenuLayoutMode.list,
+      categories: [],
     );
   }
 

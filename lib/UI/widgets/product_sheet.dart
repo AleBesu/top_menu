@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:top_menu/UI/providers/restaurant_provider.dart';
 import 'package:top_menu/core/services/file_handle/file_handle.dart';
 
@@ -8,7 +9,7 @@ import '../../core/utils.dart';
 import '../../core/models/product.dart';
 import 'app_button.dart';
 import 'app_field.dart';
-import 'net_image.dart';
+import 'file_image_widget.dart';
 
 /// Abre el formulario de producto. Devuelve el producto guardado o null.
 Future<Product?> showProductSheet(BuildContext context, {Product? product}) {
@@ -119,6 +120,10 @@ class _ProductSheetState extends ConsumerState<_ProductSheet> {
                           final newImage =
                               await FilesManagerService.pickerImage(
                                 copyToAppDirectory: true,
+                                // aspectRatio: CropAspectRatio(
+                                //   ratioX: 1,
+                                //   ratioY: 1,
+                                // ),
                               );
 
                           if (newImage != null) {

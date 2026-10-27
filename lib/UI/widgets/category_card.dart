@@ -5,7 +5,7 @@ import '../../app/app_colors.dart';
 import '../../core/models/menu_category.dart';
 import '../../core/models/product.dart';
 import '../providers/restaurant_provider.dart';
-import 'net_image.dart';
+import 'file_image_widget.dart';
 import 'product_sheet.dart';
 
 class CategoryCard extends ConsumerStatefulWidget {
