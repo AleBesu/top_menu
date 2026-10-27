@@ -156,9 +156,11 @@ abstract class ServerHandle {
     try {
       final ip = await NetworkInfo().getWifiIP();
 
-      final imageFileName = imagePath.split('/').last;
+      // final imageFileName = imagePath.split('/').last;
 
-      return '${ip}:8080/images/$imageFileName';
+      final imageFileName = basename(imagePath);
+
+      return 'http://$ip:8080/images/${Uri.encodeComponent(imageFileName)}';
     } catch (e) {
       rethrow;
     }
