@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:top_menu/UI/providers/restaurant_provider.dart';
 import 'package:top_menu/core/datasourses/hive_restaurant_local_data_source.dart';
 
 import 'app/theme.dart';
@@ -21,7 +22,9 @@ class MenuAdminApp extends ConsumerWidget {
       child: MaterialApp(
         title: 'TopMenu',
         debugShowCheckedModeBanner: false,
-        theme: buildTheme(ref),
+        theme: ref.watch(menuConfigProvider).isDarkTheme
+            ? buildDarkTheme(ref)
+            : buildLightTheme(ref),
         home: AdmiMenuScreen(),
       ),
     );

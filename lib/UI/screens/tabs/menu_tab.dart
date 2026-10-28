@@ -33,12 +33,13 @@ class MenuTab extends ConsumerWidget {
             }
           },
           style: OutlinedButton.styleFrom(
-            foregroundColor: AppColors.muted,
-            side: const BorderSide(color: AppColors.border),
             padding: const EdgeInsets.symmetric(vertical: 14),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12),
             ),
+            backgroundColor: ref.watch(menuConfigProvider).isDarkTheme
+                ? AppColors.surface2
+                : AppColors.white,
           ),
           child: const Text(
             '+ Nueva categoría',

@@ -46,7 +46,7 @@ class _HomeScreenState extends ConsumerState<AdmiMenuScreen> {
             child: Column(
               children: [
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(20, 16, 20, 20),
+                  padding: const EdgeInsets.fromLTRB(20, 16, 20, 16),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
@@ -54,13 +54,15 @@ class _HomeScreenState extends ConsumerState<AdmiMenuScreen> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Text(
+                            Text(
                               'PANEL DE ADMINISTRACIÓN',
                               style: TextStyle(
                                 fontSize: 12,
                                 fontWeight: FontWeight.w600,
                                 letterSpacing: 1.2,
-                                color: AppColors.primary,
+                                color: ref
+                                    .watch(menuConfigProvider)
+                                    .primaryColor,
                               ),
                             ),
                             const SizedBox(height: 4),
@@ -69,10 +71,13 @@ class _HomeScreenState extends ConsumerState<AdmiMenuScreen> {
                                 name,
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
-                                style: const TextStyle(
+                                style: TextStyle(
                                   fontFamily: kSerif,
                                   fontSize: 26,
                                   letterSpacing: -0.3,
+                                  color: ref
+                                      .watch(menuConfigProvider)
+                                      .primaryColor,
                                 ),
                               ),
                           ],
@@ -117,7 +122,9 @@ class _HomeScreenState extends ConsumerState<AdmiMenuScreen> {
                             });
                           },
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: AppColors.primary,
+                            backgroundColor: ref
+                                .watch(menuConfigProvider)
+                                .primaryColor,
                             foregroundColor: Colors.white,
                             elevation: 0,
                             padding: const EdgeInsets.symmetric(
@@ -132,7 +139,7 @@ class _HomeScreenState extends ConsumerState<AdmiMenuScreen> {
                               fontWeight: FontWeight.w600,
                             ),
                           ),
-                          child: Text('Crear'),
+                          child: Text('Iniciar'),
                         ),
                     ],
                   ),

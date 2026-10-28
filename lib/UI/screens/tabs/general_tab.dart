@@ -30,88 +30,92 @@ class GeneralTab extends ConsumerWidget {
         const SectionHeader('Banner del local'),
 
         //====BANNER FIELD==
-        ClipRRect(
-          borderRadius: BorderRadius.circular(12),
-          child: SizedBox(
-            height: 160,
-            child: Stack(
-              fit: StackFit.expand,
-              children: [
-                FileImageWidget(menuConfigPro.bannerPath),
-                const DecoratedBox(
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment.bottomCenter,
-                      end: Alignment.center,
-                      colors: [Color(0x99000000), Colors.transparent],
-                    ),
-                  ),
-                ),
-
-                if (menuConfigPro.name != null &&
-                    menuConfigPro.name!.isNotEmpty)
-                  Positioned(
-                    left: 14,
-                    bottom: 12,
-                    child: Text(
-                      menuConfigPro.name!,
-                      style: const TextStyle(
-                        fontFamily: kSerif,
-                        fontSize: 20,
-                        color: Colors.white,
+        Card(
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(12),
+            child: SizedBox(
+              height: 160,
+              child: Stack(
+                fit: StackFit.expand,
+                children: [
+                  FileImageWidget(menuConfigPro.bannerPath),
+                  const DecoratedBox(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.bottomCenter,
+                        end: Alignment.center,
+                        colors: [Color(0x99000000), Colors.transparent],
                       ),
                     ),
                   ),
-                Positioned(
-                  right: 8,
-                  top: 8,
-                  child: Row(
-                    children: [
-                      IconButton.filled(
-                        onPressed: () async {
-                          final newImage =
-                              await FilesManagerService.pickerImage(
-                                copyToAppDirectory: true,
-                                aspectRatio: CropAspectRatio(
-                                  ratioX: 16,
-                                  ratioY: 9,
-                                ),
-                              );
 
-                          if (newImage != null) {
-                            ref
-                                .read(menuConfigProvider.notifier)
-                                .setBanner(newImage.file.path);
-                          }
-                        },
-                        icon: const Icon(Icons.edit, color: Colors.white),
-                      ),
-
-                      if (menuConfigPro.bannerPath != null)
-                        IconButton.filled(
-                          style: ButtonStyle(
-                            backgroundColor: WidgetStatePropertyAll(Colors.red),
-                          ),
-                          onPressed: () async {
-                            await showQuestionDialog(
-                              context,
-                              question:
-                                  "Estás seguro que desea borrar el banner?",
-                              onAccept: () {
-                                menuConfigNotifier.setBanner(null, true);
-                                Navigator.of(context).pop();
-                              },
-                              onCancel: () {
-                                Navigator.of(context).pop();
-                              },
-                            );
-                          },
-                          icon: const Icon(Icons.delete, color: Colors.white),
+                  if (menuConfigPro.name != null &&
+                      menuConfigPro.name!.isNotEmpty)
+                    Positioned(
+                      left: 14,
+                      bottom: 12,
+                      child: Text(
+                        menuConfigPro.name!,
+                        style: const TextStyle(
+                          fontFamily: kSerif,
+                          fontSize: 20,
+                          color: Colors.white,
                         ),
-                    ],
+                      ),
+                    ),
+                  Positioned(
+                    right: 8,
+                    top: 8,
+                    child: Row(
+                      children: [
+                        IconButton.filled(
+                          onPressed: () async {
+                            final newImage =
+                                await FilesManagerService.pickerImage(
+                                  copyToAppDirectory: true,
+                                  aspectRatio: CropAspectRatio(
+                                    ratioX: 16,
+                                    ratioY: 9,
+                                  ),
+                                );
+
+                            if (newImage != null) {
+                              ref
+                                  .read(menuConfigProvider.notifier)
+                                  .setBanner(newImage.file.path);
+                            }
+                          },
+                          icon: const Icon(Icons.edit, color: Colors.white),
+                        ),
+
+                        if (menuConfigPro.bannerPath != null)
+                          IconButton.filled(
+                            style: ButtonStyle(
+                              backgroundColor: WidgetStatePropertyAll(
+                                Colors.red,
+                              ),
+                            ),
+                            onPressed: () async {
+                              await showQuestionDialog(
+                                context,
+                                question:
+                                    "Estás seguro que desea borrar el banner?",
+                                onAccept: () {
+                                  menuConfigNotifier.setBanner(null, true);
+                                  Navigator.of(context).pop();
+                                },
+                                onCancel: () {
+                                  Navigator.of(context).pop();
+                                },
+                              );
+                            },
+                            icon: const Icon(Icons.delete, color: Colors.white),
+                          ),
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
@@ -148,144 +152,164 @@ class GeneralTab extends ConsumerWidget {
         //=======TEMA============
         FieldTitle('Tema'),
         SizedBox(height: 10),
-        Row(
-          children: [
-            Expanded(
-              child: OutlinedButton.icon(
-                style: ButtonStyle(
-                  side: WidgetStatePropertyAll(
-                    BorderSide(color: Colors.blue, width: 1.5),
+        Card(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 8),
+            child: Row(
+              children: [
+                Expanded(
+                  child: OutlinedButton.icon(
+                    style: ButtonStyle(
+                      side: WidgetStatePropertyAll(
+                        BorderSide(
+                          color: ref.watch(menuConfigProvider).primaryColor,
+                          width: 1.5,
+                        ),
+                      ),
+                      backgroundColor: WidgetStatePropertyAll(
+                        !isDarkTheme
+                            ? ref.watch(menuConfigProvider).primaryColor
+                            : Colors.transparent,
+                      ),
+                      foregroundColor: !isDarkTheme
+                          ? WidgetStatePropertyAll(Colors.white)
+                          : WidgetStatePropertyAll(Colors.white),
+                    ),
+                    onPressed: () {
+                      // Activar modo claro
+                      menuConfigNotifier.setIsDarkTheme(false);
+                    },
+                    icon: Icon(
+                      !isDarkTheme
+                          ? Icons.light_mode
+                          : Icons.light_mode_outlined,
+                    ),
+                    label: const Text('Modo claro'),
                   ),
-                  backgroundColor: WidgetStatePropertyAll(
-                    !isDarkTheme ? AppColors.primary : Colors.transparent,
+                ),
+
+                const SizedBox(width: 12),
+
+                Expanded(
+                  child: OutlinedButton.icon(
+                    style: ButtonStyle(
+                      side: WidgetStatePropertyAll(
+                        BorderSide(color: Colors.transparent, width: 1.5),
+                      ),
+                      backgroundColor: WidgetStatePropertyAll(
+                        isDarkTheme
+                            ? menuConfigPro.primaryColor
+                            : Theme.of(context).scaffoldBackgroundColor,
+                      ),
+                      foregroundColor: isDarkTheme
+                          ? WidgetStatePropertyAll(Colors.white)
+                          : null,
+                    ),
+                    onPressed: () {
+                      // Activar modo oscuro
+
+                      menuConfigNotifier.setIsDarkTheme(true);
+                    },
+                    icon: Icon(
+                      isDarkTheme ? Icons.dark_mode : Icons.dark_mode_outlined,
+                    ),
+                    label: const Text('Modo oscuro'),
                   ),
-                  foregroundColor: !isDarkTheme
-                      ? WidgetStatePropertyAll(Colors.white)
-                      : null,
                 ),
-                onPressed: () {
-                  // Activar modo claro
-                  menuConfigNotifier.setIsDarkTheme(false);
-                },
-                icon: Icon(
-                  !isDarkTheme ? Icons.light_mode : Icons.light_mode_outlined,
-                ),
-                label: const Text('Modo claro'),
-              ),
+              ],
             ),
-
-            const SizedBox(width: 12),
-
-            Expanded(
-              child: OutlinedButton.icon(
-                style: ButtonStyle(
-                  side: WidgetStatePropertyAll(
-                    BorderSide(color: Colors.blue, width: 1.5),
-                  ),
-                  backgroundColor: WidgetStatePropertyAll(
-                    isDarkTheme ? AppColors.primary : Colors.transparent,
-                  ),
-                  foregroundColor: isDarkTheme
-                      ? WidgetStatePropertyAll(Colors.white)
-                      : null,
-                ),
-                onPressed: () {
-                  // Activar modo oscuro
-
-                  menuConfigNotifier.setIsDarkTheme(true);
-                },
-                icon: Icon(
-                  isDarkTheme ? Icons.dark_mode : Icons.dark_mode_outlined,
-                ),
-                label: const Text('Modo oscuro'),
-              ),
-            ),
-          ],
+          ),
         ),
         const SizedBox(height: 16),
 
         ///=====COLOR DE MARCA
         FieldTitle('Color de Marca'),
         SizedBox(height: 10),
-        Row(
-          children: [
-            Expanded(
-              child: BlockPicker(
-                // useInShowDialog: true,
-                pickerColor: Colors.blue,
-                layoutBuilder: (context, colors, child) {
-                  return GridView.builder(
-                    physics: NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 5,
-                          crossAxisSpacing: 0,
-                          mainAxisSpacing: 16,
-                          mainAxisExtent: 40,
-                        ),
-                    itemCount: colors.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return Center(child: child(colors[index]));
+        Card(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 8),
+            child: Row(
+              children: [
+                Expanded(
+                  child: BlockPicker(
+                    // useInShowDialog: true,
+                    pickerColor: Colors.blue,
+                    layoutBuilder: (context, colors, child) {
+                      return GridView.builder(
+                        physics: NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 5,
+                              crossAxisSpacing: 0,
+                              mainAxisSpacing: 16,
+                              mainAxisExtent: 40,
+                            ),
+                        itemCount: colors.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return Center(child: child(colors[index]));
+                        },
+                      );
                     },
-                  );
-                },
-                itemBuilder: (color, isCurrentColor, changeColor) => Material(
+                    itemBuilder: (color, isCurrentColor, changeColor) =>
+                        Material(
+                          color: Colors.transparent,
+
+                          child: Container(
+                            width: double.maxFinite,
+                            height: double.maxFinite,
+                            decoration: BoxDecoration(
+                              border: isCurrentColor
+                                  ? Border.all(color: Colors.white, width: 2)
+                                  : null,
+                              shape: BoxShape.circle,
+                              color: color,
+                            ),
+                            child: InkWell(
+                              borderRadius: BorderRadius.circular(100),
+                              onTap: changeColor,
+                            ),
+                          ),
+                        ),
+                    onColorChanged: (color) {
+                      menuConfigNotifier.setPrimaryColor(color);
+                    },
+                    availableColors: [
+                      menuConfigPro.primaryColor,
+
+                      Colors.red,
+                      Colors.green,
+
+                      Colors.blue,
+                      Colors.yellow,
+                      // Colors.black,
+                    ],
+                  ),
+                ),
+                SizedBox(width: 8),
+                Material(
                   color: Colors.transparent,
-
-                  child: Container(
-                    width: double.maxFinite,
-                    height: double.maxFinite,
-                    decoration: BoxDecoration(
-                      border: isCurrentColor
-                          ? Border.all(color: Colors.white, width: 2)
-                          : null,
-                      shape: BoxShape.circle,
-                      color: color,
-                    ),
-                    child: InkWell(
-                      borderRadius: BorderRadius.circular(100),
-                      onTap: changeColor,
+                  child: InkWell(
+                    onTap: () async {
+                      final pickedColor = await showColorPicker(context);
+                      if (pickedColor != null) {
+                        menuConfigNotifier.setPrimaryColor(pickedColor);
+                      }
+                    },
+                    child: Container(
+                      width: 40,
+                      height: 40,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.white54,
+                      ),
+                      child: Icon(Icons.add),
                     ),
                   ),
                 ),
-                onColorChanged: (color) {
-                  menuConfigNotifier.setPrimaryColor(color);
-                },
-                availableColors: [
-                  menuConfigPro.primaryColor,
-
-                  Colors.red,
-                  Colors.green,
-
-                  Colors.blue,
-                  Colors.white,
-                  // Colors.black,
-                ],
-              ),
+              ],
             ),
-            SizedBox(width: 8),
-            Material(
-              color: Colors.transparent,
-              child: InkWell(
-                onTap: () async {
-                  final pickedColor = await showColorPicker(context);
-                  if (pickedColor != null) {
-                    menuConfigNotifier.setPrimaryColor(pickedColor);
-                  }
-                },
-                child: Container(
-                  width: 40,
-                  height: 40,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Colors.white54,
-                  ),
-                  child: Icon(Icons.add),
-                ),
-              ),
-            ),
-          ],
+          ),
         ),
 
         SizedBox(height: 19),

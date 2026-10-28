@@ -52,7 +52,7 @@ class RestaurantNotifier extends Notifier<RestaurantConfig> {
       closeTime: '22:00',
 
       address: null,
-      isDarkTheme: true,
+      isDarkTheme: false,
       numberPhone: null,
       primaryColor: AppColors.primary,
       menuLayoutMode: MenuLayoutMode.list,

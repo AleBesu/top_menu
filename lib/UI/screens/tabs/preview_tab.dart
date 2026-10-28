@@ -46,7 +46,7 @@ class _PreviewTabState extends ConsumerState<PreviewTab> {
                 ),
               );
             },
-            child: Icon(Icons.visibility, color: AppColors.primary),
+            child: Icon(Icons.visibility, color: config.primaryColor),
           ),
         ),
 

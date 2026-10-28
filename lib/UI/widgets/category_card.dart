@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:top_menu/UI/widgets/dialogs/show_question_dialog.dart';
 
 import '../../app/app_colors.dart';
 import '../../core/models/menu_category.dart';
@@ -47,189 +48,145 @@ class _CategoryCardState extends ConsumerState<CategoryCard> {
   }
 
   Future<void> _confirmDelete() async {
-    final ok = await showDialog<bool>(
-      context: context,
-      builder: (ctx) => AlertDialog(
-        backgroundColor: AppColors.surface,
-        title: const Text('Eliminar categoría'),
-        content: Text(
-          '¿Eliminar "${widget.category.name}" y sus ${widget.category.products.length} platos?',
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(ctx, false),
-            child: const Text('Cancelar'),
-          ),
-          TextButton(
-            onPressed: () => Navigator.pop(ctx, true),
-            child: const Text(
-              'Eliminar',
-              style: TextStyle(color: AppColors.primary),
-            ),
-          ),
-        ],
-      ),
+    // final ok = await showDialog<bool>(
+    //   context: context,
+    //   builder: (ctx) {
+    //     AlertDialog(
+    //       backgroundColor: AppColors.surface,
+    //       title: const Text('Eliminar categoría'),
+    //       content: Text(),
+    //       actions: [
+    //         TextButton(
+    //           onPressed: () => Navigator.pop(ctx, false),
+    //           child: const Text('Cancelar'),
+    //         ),
+    //         TextButton(
+    //           onPressed: () => Navigator.pop(ctx, true),
+    //           child: const Text(
+    //             'Eliminar',
+    //             style: TextStyle(color: AppColors.primary),
+    //           ),
+    //         ),
+    //       ],
+    //     );
+    //   },
+    // );
+    // if (ok == true) ;
+
+    await showQuestionDialog(
+      context,
+      title: "Atención",
+      question:
+          '¿Desea eliminar "${widget.category.name}" y sus ${widget.category.products.length} platos?',
+      onCancel: () {
+        Navigator.of(context).pop();
+      },
+      onAccept: () async {
+        _notifier.deleteCategory(widget.category.id);
+        Navigator.of(context).pop();
+      },
     );
-    if (ok == true) _notifier.deleteCategory(widget.category.id);
   }
 
   @override
   Widget build(BuildContext context) {
-    final cat = widget.category;
-    return Container(
+    final category = widget.category;
+    return Card(
       clipBehavior: Clip.antiAlias,
-      decoration: BoxDecoration(
-        color: AppColors.surface,
-        border: Border.all(color: AppColors.border),
-        borderRadius: BorderRadius.circular(14),
-      ),
+      // decoration: BoxDecoration(
+      //   color: AppColors.surface,
+      //   border: Border.all(color: AppColors.border),
+      //   borderRadius: BorderRadius.circular(14),
+      // ),
       child: Column(
         children: [
           // Header
-          Container(
-            color: AppColors.surface2,
-            padding: const EdgeInsets.fromLTRB(16, 6, 8, 6),
-            child: Row(
-              children: [
-                Expanded(
-                  child: _editing
-                      ? TextField(
-                          controller: _ctrl,
-                          autofocus: true,
-                          onSubmitted: (_) => _commit(),
-                          onTapOutside: (_) => _commit(),
-                          style: const TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w600,
-                          ),
-                          decoration: const InputDecoration(
-                            isDense: true,
-                            border: UnderlineInputBorder(
-                              borderSide: BorderSide(color: AppColors.primary),
+          Card(
+            color: ref.watch(menuConfigProvider).primaryColor,
+
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(16, 6, 8, 6),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: _editing
+                        ? TextField(
+                            controller: _ctrl,
+                            autofocus: true,
+                            onSubmitted: (_) => _commit(),
+                            onTapOutside: (_) => _commit(),
+                            style: const TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.w600,
                             ),
-                            focusedBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: AppColors.primary),
+                            decoration: const InputDecoration(
+                              isDense: true,
+                              border: UnderlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: AppColors.primary,
+                                ),
+                              ),
+                              focusedBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: AppColors.primary,
+                                ),
+                              ),
                             ),
-                          ),
-                        )
-                      : GestureDetector(
-                          onTap: () => setState(() => _editing = true),
-                          behavior: HitTestBehavior.opaque,
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 10),
-                            child: Text(
-                              cat.name,
-                              style: const TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.w600,
+                          )
+                        : GestureDetector(
+                            onTap: () => setState(() => _editing = true),
+                            behavior: HitTestBehavior.opaque,
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 10),
+                              child: Text(
+                                category.name,
+                                style: const TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w600,
+                                  color: AppColors.white,
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                ),
-                Text(
-                  '${cat.products.length} platos',
-                  style: const TextStyle(fontSize: 11, color: AppColors.muted),
-                ),
-                IconButton(
-                  onPressed: _confirmDelete,
-                  icon: const Icon(
-                    Icons.delete_outline,
-                    size: 20,
-                    color: AppColors.muted,
                   ),
-                ),
-              ],
-            ),
-          ),
-          // Productos
-          for (final p in cat.products)
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-              decoration: const BoxDecoration(
-                border: Border(top: BorderSide(color: AppColors.border)),
-              ),
-              child: Row(
-                children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(8),
-                    child: SizedBox(
-                      width: 52,
-                      height: 52,
-                      child: FileImageWidget(p.imagePath),
+                  Text(
+                    '${category.products.length} platos',
+                    style: const TextStyle(
+                      fontSize: 12,
+                      color: AppColors.white,
                     ),
                   ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          p.name,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                        const SizedBox(height: 2),
-                        Text(
-                          p.description,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
-                            fontSize: 12,
-                            color: AppColors.muted,
-                          ),
-                        ),
-                      ],
+                  IconButton(
+                    onPressed: _confirmDelete,
+                    icon: const Icon(
+                      Icons.delete_outline,
+                      size: 20,
+                      color: AppColors.white,
                     ),
-                  ),
-                  const SizedBox(width: 10),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      Text(
-                        '${p.price}\$',
-                        style: const TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w700,
-                          color: AppColors.primary,
-                        ),
-                      ),
-                      const SizedBox(height: 6),
-                      Row(
-                        children: [
-                          _MiniBtn(label: 'Editar', onTap: () => _openSheet(p)),
-                          const SizedBox(width: 4),
-                          _MiniBtn(
-                            label: '✕',
-                            danger: true,
-                            onTap: () => _notifier.deleteProduct(cat.id, p.id),
-                          ),
-                        ],
-                      ),
-                    ],
                   ),
                 ],
               ),
             ),
+          ),
+          // Productos
+          for (final product in category.products)
+            _buildProductWidget(p: product, cat: category),
           // Añadir plato
           Container(
             padding: const EdgeInsets.all(12),
-            decoration: BoxDecoration(
-              border: cat.products.isEmpty
-                  ? null
-                  : const Border(top: BorderSide(color: AppColors.border)),
-            ),
+            // decoration: BoxDecoration(
+            //   border: category.products.isEmpty
+            //       ? null
+            //       : const Border(top: BorderSide(color: AppColors.border)),
+            // ),
             child: SizedBox(
               width: double.infinity,
               child: OutlinedButton(
                 onPressed: () => _openSheet(),
                 style: OutlinedButton.styleFrom(
-                  foregroundColor: AppColors.muted,
-                  side: const BorderSide(color: AppColors.border),
+                  // foregroundColor: AppColors.bg,
+                  // side: const BorderSide(color: AppColors.muted),
+
                   padding: const EdgeInsets.symmetric(vertical: 12),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8),
@@ -246,9 +203,88 @@ class _CategoryCardState extends ConsumerState<CategoryCard> {
       ),
     );
   }
+
+  Widget _buildProductWidget({required Product p, required MenuCategory cat}) {
+    return Column(
+      children: [
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          // decoration: const BoxDecoration(
+          //   border: Border(top: BorderSide(color: AppColors.border)),
+          // ),
+          child: Row(
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(8),
+                child: SizedBox(
+                  width: 52,
+                  height: 52,
+                  child: FileImageWidget(p.imagePath),
+                ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      p.name,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    const SizedBox(height: 2),
+                    Text(
+                      p.description,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        fontSize: 12,
+                        color: AppColors.muted,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(width: 10),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Text(
+                    '${p.price}\$',
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w700,
+                      color: ref.watch(menuConfigProvider).primaryColor,
+                    ),
+                  ),
+                  const SizedBox(height: 6),
+                  Row(
+                    children: [
+                      _MiniBtn(label: 'Editar', onTap: () => _openSheet(p)),
+                      const SizedBox(width: 4),
+                      _MiniBtn(
+                        label: '✕',
+                        danger: true,
+                        onTap: () => _notifier.deleteProduct(cat.id, p.id),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+        Divider(height: 0.5),
+      ],
+    );
+  }
 }
 
-class _MiniBtn extends StatelessWidget {
+class _MiniBtn extends ConsumerWidget {
   const _MiniBtn({
     required this.label,
     required this.onTap,
@@ -259,14 +295,14 @@ class _MiniBtn extends StatelessWidget {
   final bool danger;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Material(
-      color: danger ? AppColors.redSoft : AppColors.surface2,
+      color: danger
+          ? AppColors.red500
+          : ref.watch(menuConfigProvider).primaryColor,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(6),
-        side: danger
-            ? BorderSide.none
-            : const BorderSide(color: AppColors.border),
+        side: BorderSide.none,
       ),
       child: InkWell(
         borderRadius: BorderRadius.circular(6),
@@ -275,10 +311,7 @@ class _MiniBtn extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
           child: Text(
             label,
-            style: TextStyle(
-              fontSize: 12,
-              color: danger ? AppColors.primary : AppColors.text,
-            ),
+            style: TextStyle(fontSize: 12, color: AppColors.text),
           ),
         ),
       ),

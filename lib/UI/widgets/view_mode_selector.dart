@@ -12,6 +12,8 @@ class ViewModeSelector extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final menuLayoutMode = ref.watch(menuConfigProvider).menuLayoutMode;
+
+    final menuConfigPro = ref.watch(menuConfigProvider);
     return Row(
       children: [
         for (final m in MenuLayoutMode.values)
@@ -20,17 +22,13 @@ class ViewModeSelector extends ConsumerWidget {
               padding: EdgeInsets.only(
                 right: m == MenuLayoutMode.values.last ? 0 : 8,
               ),
-              child: Material(
-                color: m == menuLayoutMode
-                    ? AppColors.redSoft
-                    : AppColors.surface,
+              child: Card(
+                margin: EdgeInsets.zero,
+                // color: m == menuLayoutMode
+                //     ? AppColors.redSoft
+                //     : AppColors.surface,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12),
-                  side: BorderSide(
-                    color: m == menuLayoutMode
-                        ? AppColors.primary
-                        : AppColors.border,
-                  ),
                 ),
                 child: InkWell(
                   borderRadius: BorderRadius.circular(12),
@@ -38,14 +36,14 @@ class ViewModeSelector extends ConsumerWidget {
                       .read(menuConfigProvider.notifier)
                       .setMenuLayoutMode(m),
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 12),
+                    padding: const EdgeInsets.symmetric(vertical: 20),
                     child: Column(
                       children: [
                         Icon(
                           m.icon,
                           size: 22,
                           color: m == menuLayoutMode
-                              ? AppColors.primary
+                              ? menuConfigPro.primaryColor
                               : AppColors.muted,
                         ),
                         const SizedBox(height: 6),
@@ -55,7 +53,7 @@ class ViewModeSelector extends ConsumerWidget {
                             fontSize: 11,
                             fontWeight: FontWeight.w600,
                             color: m == menuLayoutMode
-                                ? AppColors.primary
+                                ? menuConfigPro.primaryColor
                                 : AppColors.muted,
                           ),
                         ),

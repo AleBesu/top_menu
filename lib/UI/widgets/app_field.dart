@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:top_menu/UI/providers/restaurant_provider.dart';
 
 import '../../app/app_colors.dart';
 
-class FieldTitle extends StatelessWidget {
+class FieldTitle extends ConsumerWidget {
   const FieldTitle(this.text, {super.key});
   final String text;
 
   @override
-  Widget build(BuildContext context) => Text(
+  Widget build(BuildContext context, WidgetRef ref) => Text(
     text.toUpperCase(),
-    style: const TextStyle(
-      color: AppColors.muted,
+    style: TextStyle(
+      color: ref.watch(menuConfigProvider).primaryColor,
       fontSize: 11,
       fontWeight: FontWeight.w600,
       letterSpacing: 0.9,
@@ -58,24 +60,6 @@ class AppField extends StatelessWidget {
           onChanged: onChanged,
           keyboardType: keyboardType,
           maxLines: maxLines,
-          style: const TextStyle(fontSize: 14, color: AppColors.text),
-          decoration: InputDecoration(
-            hintText: hint,
-            hintStyle: const TextStyle(color: AppColors.muted),
-            errorText: errorText,
-            filled: true,
-            fillColor: AppColors.surface2,
-            isDense: true,
-            contentPadding: const EdgeInsets.symmetric(
-              horizontal: 12,
-              vertical: 12,
-            ),
-            border: _border(AppColors.border),
-            enabledBorder: _border(AppColors.border),
-            focusedBorder: _border(AppColors.primary),
-            errorBorder: _border(AppColors.primary),
-            focusedErrorBorder: _border(AppColors.primary),
-          ),
         ),
       ],
     );
@@ -115,10 +99,10 @@ class TimeField extends StatelessWidget {
         FieldTitle(label),
         const SizedBox(height: 6),
         Material(
-          color: AppColors.surface2,
+          color: Theme.of(context).inputDecorationTheme.fillColor,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8),
-            side: const BorderSide(color: AppColors.border),
+            side: const BorderSide(color: AppColors.muted),
           ),
           child: InkWell(
             borderRadius: BorderRadius.circular(8),

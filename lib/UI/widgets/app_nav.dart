@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:top_menu/UI/providers/restaurant_provider.dart';
 
 import '../../app/app_colors.dart';
 import '../../core/models/app_tab.dart';
@@ -11,14 +12,9 @@ class AppTopTabs extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final current = ref.watch(tabProvider);
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-      decoration: const BoxDecoration(
-        border: Border(
-          top: BorderSide(color: AppColors.border),
-          bottom: BorderSide(color: AppColors.border),
-        ),
-      ),
+    final menuConfigPro = ref.watch(menuConfigProvider);
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 0),
       child: Row(
         children: [
           for (final t in AppTab.values)
@@ -27,30 +23,29 @@ class AppTopTabs extends ConsumerWidget {
                 padding: EdgeInsets.only(
                   right: t == AppTab.values.last ? 0 : 8,
                 ),
-                child: Material(
-                  color: t == current ? AppColors.primary : AppColors.surface2,
+                child: RawChip(
+                  onPressed: () => ref.read(tabProvider.notifier).select(t),
+
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(9),
-                    side: t == current
-                        ? BorderSide.none
-                        : const BorderSide(color: AppColors.border),
+                    side: BorderSide.none,
                   ),
-                  child: InkWell(
-                    borderRadius: BorderRadius.circular(9),
-                    onTap: () => ref.read(tabProvider.notifier).select(t),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 10),
-                      child: Center(
-                        child: Text(
-                          t.label,
-                          style: TextStyle(
-                            fontSize: 13,
-                            fontWeight: FontWeight.w600,
-                            color: t == current
-                                ? Colors.white
-                                : AppColors.muted,
-                          ),
-                        ),
+                  backgroundColor: t == current
+                      ? menuConfigPro.primaryColor
+                      : menuConfigPro.isDarkTheme
+                      ? AppColors.surface2
+                      : AppColors.white,
+                  label: Center(
+                    child: Text(
+                      t.label,
+                      style: TextStyle(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w600,
+                        color: t == current
+                            ? AppColors.white
+                            : menuConfigPro.isDarkTheme
+                            ? AppColors.white
+                            : AppColors.black,
                       ),
                     ),
                   ),
