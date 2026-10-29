@@ -1,9 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:network_info_plus/network_info_plus.dart';
+
 import 'package:path/path.dart';
 import 'package:archive/archive_io.dart';
 import 'package:flutter/services.dart';
@@ -154,13 +153,27 @@ abstract class ServerHandle {
 
   static Future<String> _getLocalImageUrl(String imagePath) async {
     try {
-      final ip = await NetworkInfo().getWifiIP();
+      final ip = await getDeviceIp();
 
       // final imageFileName = imagePath.split('/').last;
 
       final imageFileName = basename(imagePath);
 
       return 'http://$ip:8080/images/${Uri.encodeComponent(imageFileName)}';
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  static Future<String?> getDeviceIp() async {
+    try {
+      final networkList = await NetworkInterface.list();
+
+      if (networkList.isEmpty) {
+        return null;
+      }
+
+      return networkList.first.addresses.first.address.toString();
     } catch (e) {
       rethrow;
     }

@@ -2,11 +2,15 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:network_info_plus/network_info_plus.dart';
+import 'package:open_device_settings/open_device_settings.dart';
+import 'package:open_device_settings/settings_panel.dart';
+import 'package:top_menu/UI/screens/loading_screen.dart';
+import 'package:top_menu/UI/screens/select_network_screen.dart';
+
 import 'package:top_menu/UI/screens/server_iniciated_screen.dart';
 import 'package:top_menu/core/services/server_handle/server_handle.dart';
+import 'package:top_menu/main.dart';
 
-import '../../app/app_colors.dart';
 import '../../app/theme.dart';
 import '../../core/models/app_tab.dart';
 import '../providers/restaurant_provider.dart';
@@ -93,27 +97,56 @@ class _HomeScreenState extends ConsumerState<AdmiMenuScreen> {
                               isLoading = true;
                             });
 
-                            final ip = await (NetworkInfo().getWifiIP());
+                            try {
+                              final navigator = Navigator.of(context);
 
-                            if (ip != null) {
-                              await ServerHandle.init(ref: ref);
-
-                              await Navigator.of(context).push(
+                              await navigator.push(
                                 MaterialPageRoute(
-                                  builder: (_) =>
-                                      ServerScreen(ip: ip, port: 8080),
-                                ),
-                              );
-                            } else {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  backgroundColor: Colors.red,
-                                  content: Text(
-                                    "Conectate a una red Wifi",
-                                    style: TextStyle(color: Colors.white),
+                                  builder: (context) => SelectNetworkScreen(
+                                    //conect to wifi
+                                    onConnectWifi: () async {
+                                      if (await DeviceSettings.isSupported(
+                                        SettingsPanel.wifi,
+                                      )) {
+                                        await DeviceSettings.open(
+                                          SettingsPanel.wifi,
+                                        );
+                                      } else {
+                                        await DeviceSettings.openSystemSettings();
+                                      }
+                                    },
+
+                                    //init hospot
+                                    onStartHotspot: () async {
+                                      if (await DeviceSettings.isSupported(
+                                        SettingsPanel.hotspot,
+                                      )) {
+                                        await DeviceSettings.open(
+                                          SettingsPanel.hotspot,
+                                        );
+                                      } else {
+                                        await DeviceSettings.openSystemSettings();
+                                      }
+                                    },
+
+                                    onInitServer: () async {
+                                      await initServer();
+                                    },
                                   ),
                                 ),
                               );
+                            } catch (e) {
+                              ScaffoldMessenger.of(navigatorKey.currentContext!)
+                                  .showSnackBar(
+                                    SnackBar(
+                                      behavior: SnackBarBehavior.floating,
+                                      backgroundColor: Colors.red,
+                                      content: Text(
+                                        "Conectate a una red",
+                                        style: TextStyle(color: Colors.white),
+                                      ),
+                                    ),
+                                  );
                             }
 
                             await ServerHandle.stopServer();
@@ -159,5 +192,60 @@ class _HomeScreenState extends ConsumerState<AdmiMenuScreen> {
         ),
       ),
     );
+  }
+
+  Future<void> initServer() async {
+    final navigator = Navigator.of(context);
+
+    try {
+      await navigator.push(
+        MaterialPageRoute(
+          builder: (context) => LoadingScreen<String>(
+            onLoad: () async {
+              try {
+                String? ip = await ServerHandle.getDeviceIp();
+                if (ip == null) {
+                  throw ('Conecct to network');
+                }
+                await ServerHandle.init(ref: ref);
+
+                return ip;
+              } catch (e) {
+                rethrow;
+              }
+            },
+
+            onFinish: (ip) async {
+              //!go back of LoadingScreen to SelectNetworkScreen
+              navigator.pop();
+
+              //!replace SelectNetworkScreen in the navigator,for when you go back you go to main screen
+              await navigator.pushReplacement(
+                MaterialPageRoute(
+                  builder: (_) => ServerScreen(ip: ip, port: 8080),
+                ),
+              );
+            },
+            onError: (error) {
+              ScaffoldMessenger.of(navigatorKey.currentContext!).showSnackBar(
+                SnackBar(
+                  behavior: SnackBarBehavior.floating,
+                  backgroundColor: Colors.red,
+                  content: Text(
+                    "Conectate a una red o crea un punto de acceso",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
+              );
+              navigator.pop();
+            },
+          ),
+        ),
+      );
+    } catch (e) {
+      navigator.pop();
+
+      rethrow;
+    }
   }
 }

@@ -36,10 +36,6 @@ ThemeData buildLightTheme(WidgetRef ref) {
     // ),
     // brightness: Brightness.light,
     // textTheme: TextTheme(),
-    bottomSheetTheme: const BottomSheetThemeData(
-      backgroundColor: AppColors.surface,
-      modalBackgroundColor: AppColors.surface,
-    ),
 
     inputDecorationTheme: InputDecorationTheme(
       hintStyle: const TextStyle(color: AppColors.muted),
@@ -88,6 +84,7 @@ ThemeData buildDarkTheme(WidgetRef ref) {
           ? Brightness.dark
           : Brightness.light,
     ),
+
     outlinedButtonTheme: OutlinedButtonThemeData(
       style: ButtonStyle(
         foregroundColor: WidgetStatePropertyAll(AppColors.white),
@@ -117,10 +114,7 @@ ThemeData buildDarkTheme(WidgetRef ref) {
     //   displayColor: AppColors.text,
     // ),
     // brightness: Brightness.light,
-    bottomSheetTheme: const BottomSheetThemeData(
-      backgroundColor: AppColors.surface,
-      modalBackgroundColor: AppColors.surface,
-    ),
+
     textTheme: const TextTheme(
       bodyLarge: TextStyle(fontSize: 16, color: AppColors.text),
     ),

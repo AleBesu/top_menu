@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
+import 'package:top_menu/app/app_colors.dart';
 
 class ServerScreen extends StatelessWidget {
   const ServerScreen({super.key, required this.ip, this.port = 8080});
@@ -126,40 +127,24 @@ class ServerScreen extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 16),
+                  FilledButton.icon(
+                    onPressed: () async {
+                      // await stopServer();
 
-                  const SizedBox(height: 32),
-                  // Información adicional
-                  Container(
-                    padding: const EdgeInsets.all(16),
-                    decoration: BoxDecoration(
-                      color: primaryColor.withValues(alpha: 0.08),
-                      borderRadius: BorderRadius.circular(16),
-                      border: Border.all(
-                        color: primaryColor.withValues(alpha: 0.2),
+                      Navigator.of(context).pop();
+                    },
+                    icon: const Icon(Icons.stop_rounded),
+                    label: const Text('Detener servidor'),
+                    style: FilledButton.styleFrom(
+                      backgroundColor: AppColors.red500,
+                      foregroundColor: Colors.white,
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 20,
+                        vertical: 14,
                       ),
-                    ),
-                    child: const Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Icon(
-                          Icons.info_outline_rounded,
-                          color: primaryColor,
-                          size: 22,
-                        ),
-                        SizedBox(width: 12),
-                        Expanded(
-                          child: Text(
-                            'Asegúrate de que ambos dispositivos estén '
-                            'conectados a la misma red Wi-Fi',
-
-                            style: TextStyle(
-                              color: Colors.white70,
-                              fontSize: 13,
-                              height: 1.5,
-                            ),
-                          ),
-                        ),
-                      ],
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
                     ),
                   ),
                 ],

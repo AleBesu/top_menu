@@ -279,7 +279,6 @@ class GeneralTab extends ConsumerWidget {
 
                       Colors.red,
                       Colors.green,
-
                       Colors.blue,
                       Colors.yellow,
                       // Colors.black,

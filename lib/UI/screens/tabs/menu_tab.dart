@@ -58,6 +58,7 @@ class MenuTab extends ConsumerWidget {
     return await showModalBottomSheet<MenuCategory>(
       context: context,
       isScrollControlled: true,
+
       useSafeArea: true,
       builder: (context) {
         return Padding(

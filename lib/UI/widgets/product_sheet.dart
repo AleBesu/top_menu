@@ -16,7 +16,7 @@ Future<Product?> showProductSheet(BuildContext context, {Product? product}) {
   return showModalBottomSheet<Product>(
     context: context,
     isScrollControlled: true,
-    backgroundColor: AppColors.surface,
+    // backgroundColor: AppColors.surface,
     constraints: const BoxConstraints(maxWidth: 480),
     shape: const RoundedRectangleBorder(
       borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
