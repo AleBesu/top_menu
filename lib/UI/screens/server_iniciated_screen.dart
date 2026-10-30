@@ -3,26 +3,41 @@ import 'package:flutter_foreground_task/flutter_foreground_task.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:top_menu/app/app_colors.dart';
 
-class ServerScreen extends StatelessWidget {
+class ServerScreen extends StatefulWidget {
   const ServerScreen({super.key, required this.ip, this.port = 8080});
 
   final String ip;
   final int port;
 
-  String get serverUrl => 'http://$ip:$port';
+  @override
+  State<ServerScreen> createState() => _ServerScreenState();
+}
+
+class _ServerScreenState extends State<ServerScreen> {
+  String get serverUrl => 'http://${widget.ip}:${widget.port}';
+
+  @override
+  void initState() {
+    super.initState();
+
+    FlutterForegroundTask.addTaskDataCallback(_onReceiveTaskData);
+  }
+
+  void _onReceiveTaskData(Object data) {
+    if (data is! Map) return;
+
+    if (data['action'] == 'stop_server') {
+      Navigator.of(context).pop();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    const backgroundColor = Color(0xFF050B14);
-    const cardColor = Color(0xFF111A30);
-    const primaryColor = Color(0xFF0A84FF);
-
     return Scaffold(
       // backgroundColor: backgroundColor,
       appBar: AppBar(
         // backgroundColor: backgroundColor,
-        foregroundColor: Colors.white,
-        elevation: 0,
+
         title: const Text(
           'Servidor local',
           style: TextStyle(fontWeight: FontWeight.bold),
@@ -90,7 +105,7 @@ class ServerScreen extends StatelessWidget {
                     '¡Servidor inicializado!',
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      color: Colors.white,
+                      // color: Colors.white,
                       fontSize: 25,
                       fontWeight: FontWeight.bold,
                     ),
@@ -101,7 +116,7 @@ class ServerScreen extends StatelessWidget {
                     'conectado a la misma red Wi-Fi.',
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      color: Colors.white70,
+                      // color: Colors.white70,
                       fontSize: 15,
                       height: 1.5,
                     ),
@@ -111,7 +126,7 @@ class ServerScreen extends StatelessWidget {
                   const Text(
                     'URL DE CONEXIÓN',
                     style: TextStyle(
-                      color: Colors.white54,
+                      // color: Colors.white54,
                       fontSize: 11,
                       letterSpacing: 1.5,
                       fontWeight: FontWeight.bold,

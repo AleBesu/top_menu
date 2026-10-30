@@ -5,10 +5,13 @@ import 'package:flutter_foreground_task/flutter_foreground_task.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:open_device_settings/open_device_settings.dart';
 import 'package:open_device_settings/settings_panel.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:top_menu/UI/screens/loading_screen.dart';
 import 'package:top_menu/UI/screens/select_network_screen.dart';
 
 import 'package:top_menu/UI/screens/server_iniciated_screen.dart';
+import 'package:top_menu/UI/widgets/dialogs/show_question_dialog.dart';
+import 'package:top_menu/core/services/app_foreground_service/app_foreground_service.dart';
 import 'package:top_menu/core/services/server_handle/server_handle.dart';
 import 'package:top_menu/main.dart';
 
@@ -168,24 +171,48 @@ class _HomeScreenState extends ConsumerState<AdmiMenuScreen> {
                                     },
 
                                     onInitServer: () async {
-                                      final permission =
+                                      final navigator = Navigator.of(context);
+                                      //!check permision
+                                      final notificationPermissionStatus =
                                           await FlutterForegroundTask.checkNotificationPermission();
 
-                                      if (permission !=
-                                          NotificationPermission.granted) {
+                                      if (((notificationPermissionStatus) !=
+                                          NotificationPermission.granted)) {
                                         await FlutterForegroundTask.requestNotificationPermission();
-                                      } else {
+                                      }
+
+                                      if (((notificationPermissionStatus) ==
+                                          NotificationPermission
+                                              .permanently_denied)) {
+                                        await showQuestionDialog(
+                                          context,
+                                          title: "Atención",
+                                          question: "Debe permitir las notificaciones",
+                                          onCancel: () {
+                                            navigator.pop();
+                                          },
+                                          onAccept: () async {
+                                            await openAppSettings();
+                                            navigator.pop();
+                                          },
+                                        );
+                                      }
+
+                                      //!init server
+                                      if (notificationPermissionStatus ==
+                                          NotificationPermission.granted) {
                                         //!start Foregroudservice
                                         await FlutterForegroundTask.startService(
                                           serviceId: 256,
-                                          notificationTitle: 'Servidor activo',
+
+                                          notificationTitle: 'TopMenu',
                                           notificationText:
-                                              'Funcionando en segundo plano',
+                                              'Ejecutando servidor',
                                           callback: startCallback,
                                           notificationButtons: [
                                             NotificationButton(
                                               id: 'stop_server',
-                                              text: 'Detener servidor',
+                                              text: 'Detener',
                                             ),
                                           ],
                                         );

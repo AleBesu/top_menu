@@ -16,8 +16,14 @@ ThemeData buildLightTheme(WidgetRef ref) {
 
     dividerTheme: DividerThemeData(color: AppColors.muted.withOpacity(0.5)),
     scaffoldBackgroundColor: Color.alphaBlend(
-      menuConfigPro.primaryColor.withOpacity(0.25),
+      menuConfigPro.primaryColor.withOpacity(0.3),
       Colors.white,
+    ),
+    appBarTheme: AppBarTheme(
+      backgroundColor: Color.alphaBlend(
+        menuConfigPro.primaryColor.withOpacity(0.3),
+        Colors.white,
+      ),
     ),
 
     // cardTheme: CardThemeData(color: AppColors.primary.withOpacity(0.5)),
@@ -97,7 +103,12 @@ ThemeData buildDarkTheme(WidgetRef ref) {
       menuConfigPro.primaryColor.withOpacity(0.07),
       Colors.black,
     ),
-
+    appBarTheme: AppBarTheme(
+      backgroundColor: Color.alphaBlend(
+        menuConfigPro.primaryColor.withOpacity(0.07),
+        Colors.black,
+      ),
+    ),
     // outlinedButtonTheme: OutlinedButtonThemeData(
     //   style: ButtonStyle(
     //     side: WidgetStatePropertyAll(BorderSide(color: AppColors.primary)),

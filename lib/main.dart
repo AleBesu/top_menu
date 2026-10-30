@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_foreground_task/flutter_foreground_task.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:top_menu/UI/providers/restaurant_provider.dart';
+import 'package:top_menu/UI/screens/server_iniciated_screen.dart';
 import 'package:top_menu/core/datasourses/hive_restaurant_local_data_source.dart';
 import 'package:top_menu/core/services/app_foreground_service/app_foreground_service.dart';
 
@@ -27,6 +28,7 @@ class MenuAdminApp extends ConsumerWidget {
     return SafeArea(
       child: MaterialApp(
         title: 'TopMenu',
+
         navigatorKey: navigatorKey,
         debugShowCheckedModeBanner: false,
         theme: ref.watch(menuConfigProvider).isDarkTheme
@@ -36,11 +38,6 @@ class MenuAdminApp extends ConsumerWidget {
       ),
     );
   }
-}
-
-@pragma('vm:entry-point')
-void startCallback() {
-  FlutterForegroundTask.setTaskHandler(AppForegroundService());
 }
 
 // class TestScreen extends StatefulWidget {

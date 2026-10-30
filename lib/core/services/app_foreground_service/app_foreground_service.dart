@@ -9,7 +9,17 @@ import 'package:shelf/shelf.dart';
 import 'package:shelf_router/shelf_router.dart';
 import 'package:shelf_static/shelf_static.dart';
 
-class AppForegroundService extends TaskHandler {
+@pragma('vm:entry-point')
+void startCallback() {
+  FlutterForegroundTask.setTaskHandler(AppForegroundTask());
+}
+
+class AppForegroundService {
+  static AppForegroundService instance = AppForegroundService._();
+  AppForegroundService._();
+}
+
+class AppForegroundTask extends TaskHandler {
   HttpServer? _server;
 
   @override
@@ -20,6 +30,7 @@ class AppForegroundService extends TaskHandler {
 
   @override
   void onNotificationButtonPressed(String id) {
+    FlutterForegroundTask.sendDataToMain({'action': 'stop_server'});
     if (id == 'stop_server') {
       FlutterForegroundTask.stopService();
     }
@@ -59,7 +70,7 @@ class AppForegroundService extends TaskHandler {
       if (serverIp == null) {
         throw ('Serverip cannot be null');
       } else {
-        shelf_io.serve(serverHandler, serverIp!, 8080);
+        _server = await shelf_io.serve(serverHandler, serverIp, 8080);
       }
     } catch (e) {
       rethrow;

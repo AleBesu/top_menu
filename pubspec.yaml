@@ -49,6 +49,7 @@ dependencies:
   shelf_static: 1.2.0
   flutter_foreground_task:  11.0.3
   open_device_settings:  1.0.1
+  permission_handler: ^13.0.2
 
 dev_dependencies:
   flutter_launcher_icons: ^0.14.4
