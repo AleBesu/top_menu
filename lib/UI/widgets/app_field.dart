@@ -60,6 +60,8 @@ class AppField extends StatelessWidget {
           onChanged: onChanged,
           keyboardType: keyboardType,
           maxLines: maxLines,
+
+          decoration: InputDecoration(hintText: hint),
         ),
       ],
     );

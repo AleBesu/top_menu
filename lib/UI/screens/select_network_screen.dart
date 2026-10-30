@@ -70,14 +70,14 @@ class SelectNetworkScreen extends ConsumerWidget {
               Container(
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
-                  color: menuConfigPro.primaryColor.withValues(alpha: 0.08),
+                  color: menuConfigPro.primaryColor.withValues(alpha: 0.15),
                   borderRadius: BorderRadius.circular(16),
                   border: Border.all(
                     color: menuConfigPro.primaryColor.withValues(alpha: 0.2),
                   ),
                 ),
                 child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Icon(
                       Icons.info_outline_rounded,
@@ -87,10 +87,10 @@ class SelectNetworkScreen extends ConsumerWidget {
                     SizedBox(width: 12),
                     Expanded(
                       child: Text(
-                        'Asegúrate de que el dispositivo pertenesca a una red ya sea Wi-Fi o Punto de acceso ',
+                        'Asegúrate de que el dispositivo pertenesca a una red ya sea Wi-Fi o Punto de acceso',
 
                         style: TextStyle(
-                          color: Colors.white70,
+                          color: menuConfigPro.primaryColor,
                           fontSize: 13,
                           height: 1.5,
                         ),

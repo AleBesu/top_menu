@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:flutter_foreground_task/flutter_foreground_task.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:path/path.dart';
@@ -15,37 +16,54 @@ import 'package:top_menu/UI/providers/restaurant_provider.dart';
 import 'package:top_menu/UI/providers/ui_providers.dart';
 import 'package:top_menu/core/const/app_local_images_path.dart';
 import 'package:top_menu/core/extensions/color.dart';
+import 'package:top_menu/core/services/app_foreground_service/app_foreground_service.dart';
 
 abstract class ServerHandle {
   //==========================SERVER HANDLE==========================
-  static HttpServer? _server;
+  // static HttpServer? _server;
 
   static Future<void> init({required WidgetRef ref}) async {
     try {
-      final webHandler = await startWebServer();
-      final apiServerHandler = await startApiServer(ref: ref);
+      final webData = await getWebServerData();
+      final apiServerData = await getApiServerData(ref: ref);
 
-      final handler = Cascade().add(webHandler).add(apiServerHandler).handler;
+      // final handler = Cascade().add(webHandler).add(apiServerHandler).handler;
 
       // 6. Iniciar el servidor HTT
-      _server = await shelf_io.serve(handler, InternetAddress.anyIPv4, 8080);
+      // _server = await shelf_io.serve(handler, InternetAddress.anyIPv4, 8080);
+
+      //server data
+      webData.addAll(apiServerData);
+      webData['ip'] = await getDeviceIp();
+
+      FlutterForegroundTask.sendDataToTask({
+        'action': 'setServerData',
+
+        'payload': webData,
+      });
+
+      // FlutterForegroundTask.sendDataToTask({
+      //   'action': 'setServerIp',
+
+      //   'payload': ,
+      // });
     } catch (e) {
       rethrow;
     }
   }
 
   static Future<void> stopServer() async {
-    final server = _server;
+    // final server = _server;
 
-    if (server == null) return;
+    // if (server == null) return;
 
-    await server.close(force: true);
-    _server = null;
+    // await server.close(force: true);
+    // _server = null;
   }
 
   ///==========================WEB SERVER==========================
 
-  static Future<Handler> startWebServer() async {
+  static Future<Map<String, dynamic>> getWebServerData() async {
     // 1. Leer el ZIP desde los assets.
     final ByteData data = await rootBundle.load('assets/web.zip');
 
@@ -89,19 +107,21 @@ abstract class ServerHandle {
       await outputFile.writeAsBytes(file.content as List<int>, flush: true);
     }
 
-    // 5. Crear el handler de archivos estáticos.
-    Handler handler = createStaticHandler(
-      webDir.path,
-      defaultDocument: 'index.html',
-    );
+    // // 5. Crear el handler de archivos estáticos.
+    // Handler handler = createStaticHandler(
+    //   webDir.path,
+    //   defaultDocument: 'index.html',
+    // );
 
-    return handler;
+    return {'web-local-path': webDir.path};
   }
 
   //==========================API SERVER==========================
 
-  static Future<Handler> startApiServer({required WidgetRef ref}) async {
-    r.Router router = r.Router();
+  static Future<Map<String, dynamic>> getApiServerData({
+    required WidgetRef ref,
+  }) async {
+    // r.Router router = r.Router();
 
     final restauranteConfigPro = ref.read(menuConfigProvider);
     // final viewModePro = ref.read(viewModeProvider).name;
@@ -110,21 +130,21 @@ abstract class ServerHandle {
         ? null
         : await _getLocalImageUrl(restauranteConfigPro.bannerPath!);
 
-    router.get('/get-menu-config', (Request req) {
-      return Response.ok(
-        jsonEncode({
-          "name": restauranteConfigPro.name,
-          "bannerUrl": bannerUrl,
-          "openTime": restauranteConfigPro.openTime,
-          "closeTime": restauranteConfigPro.closeTime,
-          'address': restauranteConfigPro.address,
-          'isDarkTheme': restauranteConfigPro.isDarkTheme,
-          'numberPhone': restauranteConfigPro.numberPhone,
-          'primaryColor': restauranteConfigPro.primaryColor.toJson(),
-          'menuLayoutMode': restauranteConfigPro.menuLayoutMode.name,
-        }),
-      );
-    });
+    // router.get('/get-menu-config', (Request req) {
+    //   return Response.ok(
+    //     jsonEncode({
+    //       "name": restauranteConfigPro.name,
+    //       "bannerUrl": bannerUrl,
+    //       "openTime": restauranteConfigPro.openTime,
+    //       "closeTime": restauranteConfigPro.closeTime,
+    //       'address': restauranteConfigPro.address,
+    //       'isDarkTheme': restauranteConfigPro.isDarkTheme,
+    //       'numberPhone': restauranteConfigPro.numberPhone,
+    //       'primaryColor': restauranteConfigPro.primaryColor.toJson(),
+    //       'menuLayoutMode': restauranteConfigPro.menuLayoutMode.name,
+    //     }),
+    //   );
+    // });
 
     //set Url image to products
     for (var category in restauranteConfigPro.categories) {
@@ -135,20 +155,39 @@ abstract class ServerHandle {
       }
     }
 
-    router.get('/fetch-categories-list', (Request req) {
-      return Response.ok(
-        jsonEncode(
-          restauranteConfigPro.categories.map((e) => e.toJson()).toList(),
-        ),
-      );
-    });
+    // router.get('/fetch-categories-list', (Request req) {
+    //   return Response.ok(
+    //     jsonEncode(
+    //       restauranteConfigPro.categories.map((e) => e.toJson()).toList(),
+    //     ),
+    //   );
+    // });
 
-    router.mount(
-      '/images/',
-      createStaticHandler(await appLocalImagesfolderPath()),
-    );
+    // router.mount(
+    //   '/images/',
+    //   createStaticHandler(await appLocalImagesfolderPath()),
+    // );
 
-    return router;
+    return {
+      //get menu config
+      '/get-menu-config': {
+        "name": restauranteConfigPro.name,
+        "bannerUrl": bannerUrl,
+        "openTime": restauranteConfigPro.openTime,
+        "closeTime": restauranteConfigPro.closeTime,
+        'address': restauranteConfigPro.address,
+        'isDarkTheme': restauranteConfigPro.isDarkTheme,
+        'numberPhone': restauranteConfigPro.numberPhone,
+        'primaryColor': restauranteConfigPro.primaryColor.toJson(),
+        'menuLayoutMode': restauranteConfigPro.menuLayoutMode.name,
+      },
+      //categories
+      '/fetch-categories-list': restauranteConfigPro.categories
+          .map((e) => e.toJson())
+          .toList(),
+      //images
+      '/images/': await appLocalImagesfolderPath(),
+    };
   }
 
   static Future<String> _getLocalImageUrl(String imagePath) async {

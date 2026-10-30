@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_foreground_task/flutter_foreground_task.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:open_device_settings/open_device_settings.dart';
 import 'package:open_device_settings/settings_panel.dart';
@@ -30,6 +31,43 @@ class AdmiMenuScreen extends ConsumerStatefulWidget {
 class _HomeScreenState extends ConsumerState<AdmiMenuScreen> {
   bool isLoading = false;
   Timer? _timer;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _initService();
+  }
+
+  Future<void> _initService() async {
+    if (await FlutterForegroundTask.checkNotificationPermission() !=
+        NotificationPermission.granted) {
+      await FlutterForegroundTask.requestNotificationPermission();
+    }
+
+    if ((await FlutterForegroundTask.isIgnoringBatteryOptimizations) == false) {
+      await FlutterForegroundTask.openIgnoreBatteryOptimizationSettings();
+    }
+
+    FlutterForegroundTask.init(
+      androidNotificationOptions: AndroidNotificationOptions(
+        channelId: 'server_channel',
+        channelName: 'Servidor del Menu',
+        channelDescription: 'Estado del servidor',
+        channelImportance: NotificationChannelImportance.HIGH,
+      ),
+      iosNotificationOptions: const IOSNotificationOptions(
+        showNotification: false,
+        playSound: false,
+      ),
+      foregroundTaskOptions: ForegroundTaskOptions(
+        eventAction: ForegroundTaskEventAction.repeat(5000),
+        autoRunOnBoot: false,
+        allowWakeLock: true,
+        allowWifiLock: true,
+      ),
+    );
+  }
 
   @override
   void dispose() {
@@ -130,7 +168,30 @@ class _HomeScreenState extends ConsumerState<AdmiMenuScreen> {
                                     },
 
                                     onInitServer: () async {
-                                      await initServer();
+                                      final permission =
+                                          await FlutterForegroundTask.checkNotificationPermission();
+
+                                      if (permission !=
+                                          NotificationPermission.granted) {
+                                        await FlutterForegroundTask.requestNotificationPermission();
+                                      } else {
+                                        //!start Foregroudservice
+                                        await FlutterForegroundTask.startService(
+                                          serviceId: 256,
+                                          notificationTitle: 'Servidor activo',
+                                          notificationText:
+                                              'Funcionando en segundo plano',
+                                          callback: startCallback,
+                                          notificationButtons: [
+                                            NotificationButton(
+                                              id: 'stop_server',
+                                              text: 'Detener servidor',
+                                            ),
+                                          ],
+                                        );
+
+                                        await initServer();
+                                      }
                                     },
                                   ),
                                 ),

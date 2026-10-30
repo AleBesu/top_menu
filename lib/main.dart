@@ -1,9 +1,11 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_foreground_task/flutter_foreground_task.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:top_menu/UI/providers/restaurant_provider.dart';
 import 'package:top_menu/core/datasourses/hive_restaurant_local_data_source.dart';
+import 'package:top_menu/core/services/app_foreground_service/app_foreground_service.dart';
 
 import 'app/theme.dart';
 import 'UI/screens/admi_menu.dart';
@@ -11,7 +13,7 @@ import 'UI/screens/admi_menu.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await HiveRestaurantLocalDataSource.init();
-
+  FlutterForegroundTask.initCommunicationPort();
   runApp(const ProviderScope(child: MenuAdminApp()));
 }
 
@@ -34,6 +36,11 @@ class MenuAdminApp extends ConsumerWidget {
       ),
     );
   }
+}
+
+@pragma('vm:entry-point')
+void startCallback() {
+  FlutterForegroundTask.setTaskHandler(AppForegroundService());
 }
 
 // class TestScreen extends StatefulWidget {

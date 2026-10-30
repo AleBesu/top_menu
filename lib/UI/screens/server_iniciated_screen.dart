@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_foreground_task/flutter_foreground_task.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:top_menu/app/app_colors.dart';
 
@@ -131,6 +132,9 @@ class ServerScreen extends StatelessWidget {
                     onPressed: () async {
                       // await stopServer();
 
+                      //!Stop foregroundservice
+
+                      await FlutterForegroundTask.stopService();
                       Navigator.of(context).pop();
                     },
                     icon: const Icon(Icons.stop_rounded),
