@@ -49,7 +49,7 @@ dependencies:
   shelf_static: 1.2.0
   flutter_foreground_task:  11.0.3
   open_device_settings:  1.0.1
-  permission_handler: ^13.0.2
+  permission_handler:  13.0.2
 
 dev_dependencies:
   flutter_launcher_icons: ^0.14.4
@@ -62,14 +62,14 @@ flutter_launcher_icons:
   android: true
   ios: true
   image_path: "assets/icons/app_icon.png"
-  adaptive_icon_background: "#2196F3"
+  adaptive_icon_background: "#030E24"
   adaptive_icon_foreground: "assets/icons/app_icon.png"
 flutter_native_splash:
-  color: "#2196F3"
+  color: "#030E24"
   image:  assets/icons/app_icon.png
   branding: assets/icons/titanium_core_white.png
   android_12:
-    color: "#2196F3"
+    color: "#030E24"
     image:  assets/icons/app_icon_padding.png
     branding: assets/icons/titanium_core_white.png
 
